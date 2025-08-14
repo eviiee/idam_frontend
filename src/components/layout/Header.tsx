@@ -33,7 +33,7 @@ export default function NavigationBar() {
                         </div>
                     </div>
                     <div className="toolbar-action-button-wrap">
-                        <a href="" className="toolbar-action-button__console">관리자 콘솔 가기</a>
+                        <a href="/admin" className="toolbar-action-button__console">관리자 콘솔 가기</a>
                         <a href="" className="toolbar-action-button__order">주문서 작성하기</a>
                     </div>
                 </div>

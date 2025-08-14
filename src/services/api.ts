@@ -8,7 +8,7 @@ export async function getProductInfo(productKey: number | string): Promise<Produ
 
     return {
         id: 1,
-        productName: "이담 맥세이프 투명 케이스",
+        productName: "이담 맥세이프 투명 케이스 ",
         productAlias: "테스트 상품",
         useOptions: true,
         usePhoneModels: true,

@@ -22,6 +22,10 @@ body {
                     display: flex;
                     flex-direction: column;
 
+                    position: sticky;
+                    z-index: 100;
+                    left: 0;
+
                     >.admin-console__logo-wrap {
                         border-bottom: 1px solid var(--foreground-hover-dark);
                         padding: 30px 20px;
@@ -47,7 +51,8 @@ body {
 
                             border-bottom: 1px solid var(--foreground-hover-dark);
 
-                            >div {
+                            >div,
+                            >a {
 
                                 &.admin-console__nav-item--open {
                                     height: auto;
@@ -103,11 +108,19 @@ body {
                     flex-grow: 1;
                     flex-shrink: 0;
 
+                    background-color: #eee;
+
                     >div {
+
+                        background-color: white;
+
                         margin: 0 auto;
                         max-width: 1440px;
                         min-width: 1200px;
-                        padding: 40px 80px;
+                        padding: 80px;
+                        padding-bottom: 120px;
+
+                        min-height: 100%;
                     }
                 }
             }

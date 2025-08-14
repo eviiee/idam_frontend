@@ -1,26 +1,29 @@
 'use client'
 
-import { motion } from "framer-motion";
-import React from "react"
+import React, { useState } from "react"
 
 export default function ConsoleSideBar() {
+    
+    const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-    const toggleCollapse = (e: React.MouseEvent<HTMLHeadingElement>) => {
-        const clickedDiv = e.currentTarget.parentElement; // h3 감싸는 div
-        if (!clickedDiv) return;
-
-        const allDivs = document.querySelectorAll<HTMLDivElement>('.admin-console__nav li > div');
-
-        // 모든 div에서 'open' 제거
-        allDivs.forEach(div => {
-            if (div !== clickedDiv) {
-                div.classList.remove('admin-console__nav-item--open');
-            }
-        });
-
-        // 클릭한 div만 toggle
-        clickedDiv.classList.toggle('admin-console__nav-item--open');
+    const toggleCollapse = (index: number) => {
+        setOpenIndex(prev => prev === index ? null : index);
     };
+
+    const navItems: {
+        name: string;
+        href: string;
+        list?: [string, string][];
+    }[] = [
+            { name: "홈", href: "" },
+            { name: "판매 관리", href: "sale", list: [["주문서 작성", "create"], ["주문 조회", "order"]] },
+            { name: "인쇄 관리", href: "print", list: [["인쇄 목록", "list"], ["인쇄 시안 업로드", "upload"], ["인쇄 시안 조회", "history"]] },
+            { name: "상품 관리", href: "product", list: [["상품 목록", "list"], ["신규상품 생성", "new"], ["휴대폰 모델 관리", "model"]] },
+            { name: "재고 관리", href: "inventory", list: [["재고 현황", "current"], ["입고 생성", "inbound"]] },
+            { name: "판매채널", href: "channel" },
+            { name: "거래처", href: "company" },
+            { name: "계정", href: "account", list: [["계정 관리", "list"], ["신규 계정 생성", "new"]] },
+        ];
 
     return (
         <aside className="admin-console__sidebar">
@@ -30,32 +33,56 @@ export default function ConsoleSideBar() {
                 </a>
             </div>
             <ul className="admin-console__nav">
-                <li><div><h3>홈</h3></div></li>
-                <li>
-                    <div>
-                        <h3 onClick={toggleCollapse}>판매 관리</h3>
-                        <motion.ul className="admin-console__nav-sub-list">
-                            <li><a>주문서 작성</a></li>
-                            <li><a>주문 조회</a></li>
-                        </motion.ul>
-                    </div>
-                </li>
-                <li>
-                    <div>
-                        <h3 onClick={toggleCollapse}>인쇄 관리</h3>
-                        <ul className="admin-console__nav-sub-list">
-                            <li><a>인쇄 목록</a></li>
-                            <li><a>인쇄 시안 업로드</a></li>
-                            <li><a>인쇄 시안 조회</a></li>
-                        </ul>
-                    </div>
-                </li>
-                <li><div><h3 onClick={toggleCollapse}>재고 관리</h3></div></li>
-                <li><div><h3 onClick={toggleCollapse}>상품 관리</h3></div></li>
-                <li><div><h3 onClick={toggleCollapse}>판매채널</h3></div></li>
-                <li><div><h3 onClick={toggleCollapse}>거래처</h3></div></li>
-                <li><div><h3 onClick={toggleCollapse}>계정</h3></div></li>
+                {navItems.map((item, index) => (
+                    <NavTab
+                        key={item.href}
+                        name={item.name}
+                        href={item.href}
+                        list={item.list}
+                        isOpen={openIndex === index}
+                        onToggle={() => toggleCollapse(index)}
+                    />
+                ))}
             </ul>
         </aside>
     )
+}
+
+function NavTab({
+    name,
+    href,
+    list = [],
+    isOpen,
+    onToggle,
+}: {
+    name: string;
+    href: string;
+    list?: [string, string][];
+    isOpen: boolean;
+    onToggle: () => void;
+}) {
+    const title = <h3 onClick={list.length > 0 ? onToggle : undefined}>{name}</h3>;
+
+    if (list.length > 0) {
+        return (
+            <li>
+                <div className={`admin-console__nav-item ${isOpen ? 'admin-console__nav-item--open' : ''}`}>
+                    {title}
+                    <ul className="admin-console__nav-sub-list">
+                        {list.map(([label, path]) => (
+                            <li key={path}>
+                                <a href={`/admin/${href}/${path}`}>{label}</a>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </li>
+        );
+    }
+
+    return (
+        <li>
+            <a href={`/admin/${href}`}>{title}</a>
+        </li>
+    );
 }

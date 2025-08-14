@@ -1,0 +1,51 @@
+.button {
+    outline: none;
+    border: none;
+
+    border-radius: 6px;
+
+    padding: 12px 18px;
+    min-width: 80px;
+
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1;
+
+    cursor: pointer;
+
+    &.blue {
+        background-color: rgb(43, 110, 255);
+        color: white;
+
+        &:hover {
+            background-color: rgb(34, 97, 234);
+        }
+    }
+
+    &.grey {
+        background-color: rgb(241, 241, 241);
+        color: rgb(56, 56, 56);
+
+        &:hover {
+            background-color: rgb(231, 231, 231);
+        }
+    }
+
+    &.red {
+        background-color: rgb(255, 70, 70);
+        color: white;
+
+        &:hover {
+            background-color: rgb(255, 92, 92);
+        }
+    }
+
+    &.black {
+        background-color: #2c2d2f;
+        color: white;
+
+        &:hover {
+            background-color: #323335;
+        }
+    }
+}

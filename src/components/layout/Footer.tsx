@@ -27,7 +27,7 @@ export default function Footer() {
                                     <h5>상담 시간</h5>
                                     <p>평일 10:00 ~ 17:00</p>
                                     <p>점심 11:30 ~ 13:30</p>
-                                    <caption>(주말 및 공휴일 제외)</caption>
+                                    <h6>(주말 및 공휴일 제외)</h6>
                                 </div>
                                 <div>
                                     <h5>연락처</h5>
@@ -37,7 +37,7 @@ export default function Footer() {
                             </div>
                         </div>
                         <p className="bank-account">
-                            <h5>입금계좌</h5>
+                            <span>입금계좌</span>
                             <span>신한은행 140-013-967433</span>
                             <span>(주)이담리테일</span>
                         </p>
