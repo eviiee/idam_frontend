@@ -62,7 +62,7 @@ body {
             >.toolbar-logo-wrap {
                 >a {
                     >img {
-                        width: 100px;
+                        width: 90px;
                     }
                 }
             }
@@ -198,7 +198,7 @@ footer {
                     flex-grow: 1;
 
                     >img {
-                        width: 100px;
+                        width: 85px;
                         margin-bottom: 8px;
                     }
 
@@ -254,7 +254,7 @@ footer {
                         display: flex;
                         margin-bottom: 30px;
 
-                        >p {
+                        >div {
                             display: flex;
                             flex-direction: column;
 
@@ -272,7 +272,7 @@ footer {
                                 margin-bottom: 14px;
                             }
 
-                            >span {
+                            >p {
                                 line-height: 1;
                                 font-size: 0.77rem;
                                 font-weight: 300;
@@ -280,7 +280,7 @@ footer {
                                 margin-bottom: 6px;
                             }
 
-                            >small {
+                            >caption {
                                 line-height: 1;
                                 font-size: 0.7rem;
                                 font-weight: 300;

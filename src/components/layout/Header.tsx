@@ -4,7 +4,7 @@ export default function NavigationBar() {
         <header className='toolbar'>
             <div className="toolbar-wrap">
                 <div className="toolbar-upper">
-                    <div className="toolbar-logo-wrap"><a href="/"><img src="https://cdn-dantats.stunning.kr/static/common/logo/bi-loud.png.small?s=200x48&t=crop&q=80&f=webp" alt="이담리테일" /></a></div>
+                    <div className="toolbar-logo-wrap"><a href="/"><img src="/images/brand/idam.svg" alt="이담리테일" /></a></div>
                     <div className="toolbar-search-wrap">
                         <div className="toolbar-search"></div>
                     </div>

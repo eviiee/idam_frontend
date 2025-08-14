@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
-import "./globals.scss";
+import "../../globals.scss";
 import "./layout.scss";
-import NavigationBar from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
+import ConsoleSideBar from "@/components/layout/ConsoleSideBar";
 
 export const metadata: Metadata = {
-  title: "이담리테일",
-  description: "1개도 도매 가격에, 스마트한 구매",
+  title: "이담리테일 관리자",
+  description: "이담리테일 관리자 페이지",
 };
 
-export default function RootLayout({
+export default function AdminLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -20,10 +19,9 @@ export default function RootLayout({
         <div id="root">
           <div id="app">
             <div className="wrap">
-              <NavigationBar />
+              <ConsoleSideBar />
               <div className="content">
                 {children}
-                <Footer />
               </div>
             </div>
           </div>

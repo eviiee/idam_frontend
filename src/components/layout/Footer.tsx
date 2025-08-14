@@ -6,7 +6,7 @@ export default function Footer() {
                 <div className="upper">
                     <section className="left">
                         <div className="logo">
-                            <img src="https://cdn-dantats.stunning.kr/static/common/logo/bi-loud.png.small?s=200x48&t=crop&q=80&f=webp" alt="이담리테일" />
+                            <img src="/images/brand/idam.svg" alt="이담리테일" />
                             <h5>Boost your business with <b>Idam Retail</b></h5>
                         </div>
                         <div className="biz-info">
@@ -23,17 +23,17 @@ export default function Footer() {
                         <div className="customer-service">
                             <h4>고객 센터</h4>
                             <div className="customer-service__info">
-                                <p>
+                                <div>
                                     <h5>상담 시간</h5>
-                                    <span>평일 10:00 ~ 17:00</span>
-                                    <span>점심 11:30 ~ 13:30</span>
-                                    <small>(주말 및 공휴일 제외)</small>
-                                </p>
-                                <p>
+                                    <p>평일 10:00 ~ 17:00</p>
+                                    <p>점심 11:30 ~ 13:30</p>
+                                    <caption>(주말 및 공휴일 제외)</caption>
+                                </div>
+                                <div>
                                     <h5>연락처</h5>
-                                    <span><b>E.</b> idam0621@naver.com</span>
-                                    <span><b>T.</b> 1644-6140</span>
-                                </p>
+                                    <p><b>E.</b> idam0621@naver.com</p>
+                                    <p><b>T.</b> 1644-6140</p>
+                                </div>
                             </div>
                         </div>
                         <p className="bank-account">

@@ -15,7 +15,7 @@ export async function getProductInfo(productKey: number | string): Promise<Produ
         option1:  "옵션1",
         option2:  "옵션2",
         thumbnail: "https://cdn1.domeggook.com/upload/item/2025/07/16/1752642048877E3BA1F3C362A9C5551A/1752642048877E3BA1F3C362A9C5551A_img_760?hash=638a04b1d8f11cb54f35b579e7c200ab",
-        thumbnailHover: "https://ecimg.cafe24img.com/pg168b06062900060/asl1052/web/product/big/20250404/7177585ebd73332a5d33010632655401.jpg",
+        thumbnailHover: "https://canobox.co.kr/data/upload/csj3646_20250313104415_1.jpg",
         additionalImages: [],
         detailImage: "",
         tags: [],
