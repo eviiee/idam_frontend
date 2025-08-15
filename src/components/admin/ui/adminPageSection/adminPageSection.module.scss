@@ -1,0 +1,21 @@
+
+.admin-page__section {
+    > .admin--page__section__title {
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        margin-bottom: 16px;
+    }
+
+    > .admin--page__section__content-wrap {
+        padding: 40px 20px;
+        margin-bottom: 30px;
+        background-color: white;
+        border-radius: 4px;
+
+        &.no-padding {
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+}

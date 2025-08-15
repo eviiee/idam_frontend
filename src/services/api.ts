@@ -1,4 +1,4 @@
-import Product from "@/interfaces/product";
+import Product from "@/types/product";
 
 export async function getProductInfo(productKey: number | string): Promise<Product> {
 
