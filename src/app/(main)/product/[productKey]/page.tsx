@@ -1,6 +1,5 @@
-import { getProductInfo } from "@/services/api";
+import { getProductInfo } from "@/services/common/getProductInfo";
 import styles from "./page.module.scss";
-import Image from "next/image";
 
 interface PageProps {
     params: {

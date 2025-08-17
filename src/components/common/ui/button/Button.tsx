@@ -10,18 +10,19 @@ type BaseProps = {
     name?: string | undefined
     disabled?: boolean
     children?: ReactNode
+    small?: boolean
 }
 
 type LinkProps = BaseProps & {
     simpleLink: true
     href: string
-    onClick?: (e: MouseEvent<HTMLButtonElement>) => void
+    onClick?: (e: MouseEvent<HTMLButtonElement>) => void | (() => {})
 }
 
 type ClickableButtonProps = BaseProps & {
-    simpleLink: false
+    simpleLink?: false
     href?: string
-    onClick: (e: MouseEvent<HTMLButtonElement>) => void
+    onClick: (e: MouseEvent<HTMLButtonElement>) => void | (() => {})
 }
 
 export type ButtonProps = LinkProps | ClickableButtonProps;
@@ -35,9 +36,10 @@ export default function Button({
     children,
     simpleLink = false,
     href = "",
+    small = false,
 }: ButtonProps) {
 
-    const buttonClass = clsx(styles.button,styles[color], className)
+    const buttonClass = clsx(styles.button,styles[color], className, small && styles.small)
     const component = simpleLink ?
     <a href={href} className={buttonClass}>{children}</a>
      :

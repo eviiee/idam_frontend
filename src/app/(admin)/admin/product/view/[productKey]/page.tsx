@@ -1,4 +1,4 @@
-import { getProductInfo } from "@/services/api";
+import { getProductInfo } from "@/services/common/getProductInfo";
 import styles from "./page.module.scss";
 
 interface PageProps {

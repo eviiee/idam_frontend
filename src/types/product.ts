@@ -33,9 +33,9 @@ export default interface Product {
     productAlias: string;
     useOptions: boolean;
     usePhoneModels: boolean;
-    option1?: string | null;
-    option2?: string | null;
-    option3?: string | null;
+    option1?: string;
+    option2?: string;
+    option3?: string;
     thumbnail: string;
     thumbnailHover?: string | null;
     additionalImages: ProductImage[];
@@ -45,4 +45,9 @@ export default interface Product {
     options: ProductOption[];
     createdAt: string;
     updatedAt: string;
+
+    stock?: number | null;
+    purchasePrice?: number;
+    price?: number;
+    peakPrice?: number;    
 }

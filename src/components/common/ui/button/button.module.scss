@@ -48,4 +48,10 @@
             background-color: #323335;
         }
     }
+
+    &.small {
+        font-size: 0.9rem;
+        font-weight: 500;
+        padding: 6px;
+    }
 }

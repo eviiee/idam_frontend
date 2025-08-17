@@ -1,7 +1,7 @@
 import { ProductOption } from "./product"
 
-type PrintType = '레이저 각인' | '컬러 인쇄'
-type PrintState = '시안 확인중' | '인쇄 대기' | '인쇄 완료'
+export type PrintType = '레이저 각인' | '컬러 인쇄'
+export type PrintState = '시안 확인중' | '인쇄 대기' | '인쇄 완료'
 
 export interface PrintInfo {
     id: number

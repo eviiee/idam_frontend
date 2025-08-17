@@ -1,0 +1,13 @@
+
+.admin-print-list-page__filter-wrap {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 7px;
+
+    > div {
+        flex-grow: 1;
+        font-size: 1.2rem;
+        line-height: 1;
+    }
+}
