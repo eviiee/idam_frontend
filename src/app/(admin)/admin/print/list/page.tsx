@@ -16,9 +16,9 @@ export default function PrintListPage() {
     const [loading, setLoading] = useState<boolean>(true)
     const [printList, setPrintList] = useState<PrintInfo[]>([])
 
-    useEffect(()=>{
+    useEffect(() => {
         loadPrintList()
-    },[filter])
+    }, [filter])
 
     const loadPrintList = async () => {
         setLoading(true)
@@ -32,11 +32,11 @@ export default function PrintListPage() {
             <AdminPageHeader title="인쇄 시안" />
             <AdminPageSection className={styles['admin-print-list-page__filter-wrap']}>
                 <div>현재 인쇄 필요한 수량 : {toCommaSeparated(154865)}</div>
-                <Button className={styles['admin-print-list-page__filter']} onClick={()=>setFilter('시안 확인중')} color={filter === '시안 확인중' ? 'blue' : 'grey'}>✒️ 시안 확인중</Button>
-                <Button className={styles['admin-print-list-page__filter']} onClick={()=>setFilter('인쇄 대기')} color={filter === '인쇄 대기' ? 'blue' : 'grey'}>⏳ 인쇄 대기</Button>
-                <Button className={styles['admin-print-list-page__filter']} onClick={()=>setFilter('인쇄 완료')} color={filter === '인쇄 완료' ? 'blue' : 'grey'}>✔️ 인쇄 완료</Button>
+                <Button className={styles['admin-print-list-page__filter']} onClick={() => setFilter('시안 확인중')} color={filter === '시안 확인중' ? 'blue' : 'grey'}>✒️ 시안 확인중</Button>
+                <Button className={styles['admin-print-list-page__filter']} onClick={() => setFilter('인쇄 대기')} color={filter === '인쇄 대기' ? 'blue' : 'grey'}>⏳ 인쇄 대기</Button>
+                <Button className={styles['admin-print-list-page__filter']} onClick={() => setFilter('인쇄 완료')} color={filter === '인쇄 완료' ? 'blue' : 'grey'}>✔️ 인쇄 완료</Button>
             </AdminPageSection>
-            <AdminPageSection label="시안 목록">
+            <AdminPageSection label="시안 목록" className={styles['admin-print-list__wrap']} noPadding>
                 {
                     printList.map((printItem, i) => <PrintInfoBox printInfo={printItem} key={i} />)
                 }

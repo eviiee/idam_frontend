@@ -1,0 +1,34 @@
+.print-list-admin-page__print-info-box {
+    display: flex;
+    flex-direction: column;
+
+    padding: 40px;
+
+    > .print-info-box__state {
+        font-size: 0.9rem;
+        font-weight: 400;
+        color: var(--tag-color);
+
+        &::before {
+            content: '';
+            display: inline-block;
+            width: 0.7rem;
+            height: 0.7rem;
+            border-radius: 2rem;
+            background-color: var(--tag-color);
+            margin-right: 6px;
+        }
+
+        &.blue {
+            --tag-color: var(--blue);
+        }
+
+        &.yellow {
+            --tag-color: var(--yellow);
+        }
+    }
+
+    > img {
+        width: 100%;
+    }
+}
