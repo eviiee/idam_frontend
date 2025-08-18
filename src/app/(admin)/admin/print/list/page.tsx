@@ -8,6 +8,7 @@ import Button from "@/components/common/ui/button/Button";
 import { useEffect, useState } from "react";
 import { PrintInfo, PrintState } from "@/types/print";
 import { getPrintListAdmin } from "@/services/admin/getPrintListAdmin";
+import PrintInfoBox from "./components/PrintInfoBox";
 
 export default function PrintListPage() {
 
@@ -35,7 +36,11 @@ export default function PrintListPage() {
                 <Button className={styles['admin-print-list-page__filter']} onClick={()=>setFilter('인쇄 대기')} color={filter === '인쇄 대기' ? 'blue' : 'grey'}>⏳ 인쇄 대기</Button>
                 <Button className={styles['admin-print-list-page__filter']} onClick={()=>setFilter('인쇄 완료')} color={filter === '인쇄 완료' ? 'blue' : 'grey'}>✔️ 인쇄 완료</Button>
             </AdminPageSection>
-            <AdminPageSection label="시안 목록"></AdminPageSection>
+            <AdminPageSection label="시안 목록">
+                {
+                    printList.map((printItem, i) => <PrintInfoBox printInfo={printItem} key={i} />)
+                }
+            </AdminPageSection>
         </div>
     )
 }
