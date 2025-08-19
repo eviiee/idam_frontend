@@ -1,5 +1,6 @@
 import axios, { AxiosResponse, InternalAxiosRequestConfig } from "axios"
 import { getCookie } from "./common/common"
+import { getSession, signOut } from "next-auth/react";
 
 export const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 
@@ -18,28 +19,26 @@ const responseInterceptor = [
         const originalRequest = error.config
 
         if (error.response?.status == 401 && !originalRequest._retry) {
+
             // 무한 재시도 방지
             originalRequest._retry = true;
 
-            try {
-                // access 재발급 시도
-                const refreshToken = getCookie('refreshToken')
-                const res = await axios.post(
-                    BASE_URL + '/auth/refresh',
-                    { refresh: refreshToken },
-                    { withCredentials: true },
-                )
-                const newAccess = res.data.access
-                localStorage.setItem('access', newAccess)
+            const session = await getSession()
+            const refreshToken = session?.user.refreshToken
 
-                // 새 토큰으로 원래 요청 재시도
-                originalRequest.headers["Authorization"] = `Bearer ${newAccess}`;
+            try {
+
+                // 토큰 재발급 요청
+                const response = await axios.post(`${BASE_URL}/auth/refresh`, { refresh: refreshToken });
+
+                // 새 토큰으로 재시도
+                originalRequest.headers["Authorization"] = `Bearer ${response.data.access}`;
                 return axios(originalRequest);
 
             } catch (e) {
                 // 재발급 실패시 로그인 페이지로 리디렉션
                 const currentPath = window.location.pathname + window.location.search;
-                window.location.href = `/login?next=${encodeURIComponent(currentPath)}`;
+                signOut({ callbackUrl: `/login?next=${encodeURIComponent(currentPath)}` })
                 return Promise.reject(e);
             }
         }
@@ -57,16 +56,18 @@ export const createClientApi = () => {
     });
 
     clientApi.interceptors.request.use(
-        (config) => {
+        async (config) => {
 
             const csrfToken = getCsrfToken();
             if (csrfToken && config.headers) {
                 config.headers['X-CSRFToken'] = csrfToken;
             }
 
-            const accessToken = sessionStorage.getItem('accessToken')
-            if (accessToken && config.headers) {
-                config.headers.Authorization = `Bearer ${accessToken}`
+            const session = await getSession()
+            const token = session?.user.accessToken
+
+            if (token && config.headers) {
+                config.headers['Authorization'] = `Bearer ${token}`
             }
 
             return config
@@ -75,24 +76,4 @@ export const createClientApi = () => {
     clientApi.interceptors.response.use(...responseInterceptor)
 
     return clientApi
-}
-
-// export default api
-
-export async function login(username: string, password: string) {
-
-    const res = await fetch(BASE_URL + '/auth/token', {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
-        credentials: "include",  // 쿠키 교환 필요시 필수
-    })
-
-    if (!res.ok) throw new Error("로그인 실패")
-    const data = await res.json()
-
-    localStorage.setItem('accessToken', data.access)
-    document.cookie = `refreshToken=${data.refresh}; path=/; secure; samesite=None`
-    
-    return data
 }

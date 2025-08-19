@@ -23,7 +23,7 @@ export const authOptions: NextAuthOptions = {
                     if (!user) return null
 
                     return user;
-                    
+
                 } catch (err) {
                     console.error("Login error:", err)
                     return null
@@ -31,6 +31,7 @@ export const authOptions: NextAuthOptions = {
             },
         }),
     ],
+    session: { strategy: 'jwt' },
     callbacks: {
         async jwt({ token, user }) {
             if (user) {
@@ -39,7 +40,19 @@ export const authOptions: NextAuthOptions = {
                 token.refreshToken = user.refresh
                 token.name = user.name
                 token.role = user.role
+                token.accessTokenExpires = Date.now() + 30 * 60 * 1000
             }
+
+            if (Date.now() > (token.accessTokenExpires ?? 0)) {
+                try {
+                    const response = await axios.post(process.env.NEXT_PUBLIC_API_BASE_URL + process.env.NEXT_PUBLIC_API_AUTH_REFRESH!, { refresh: token.refreshToken })
+                    token.accessToken = response.data.access
+                    token.accessTokenExpires = Date.now() + 30 * 60 * 1000
+                } catch (e) {
+                    return { ...token, error: "토큰 만료" }
+                }
+            }
+
             return token
         },
         async session({ session, token }) {
@@ -52,9 +65,6 @@ export const authOptions: NextAuthOptions = {
             }
             return session
         },
-    },
-    session: {
-        strategy: "jwt",
     },
 }
 

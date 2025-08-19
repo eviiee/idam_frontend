@@ -1,8 +1,9 @@
 import { Channel, Company, Courier } from "./partner"
 
-type OrderState = '결제대기' | '결제완료' | '배송준비중' | '처리완료'
-type PurchaseType = '신용거래' | '무통장'
-type PurchaseState = '입금 대기' | '미수금' | '결제완료'
+export type OrderState = '결제대기' | '결제완료' | '배송준비중' | '처리완료'
+export type PurchaseType = '신용거래' | '무통장'
+export type PurchaseState = '입금 대기' | '미수금' | '결제완료'
+export type ShipmentType = '택배' | '퀵/화물' | '직배송' | '방문수령' | '배송없음'
 
 
 export interface Order {
@@ -20,6 +21,7 @@ export interface Order {
 export interface Shipment {
     id: number
 
+    shipmentType: ShipmentType
     shipper: Company
     shipperContact: string
     shipperContactAlt: string
