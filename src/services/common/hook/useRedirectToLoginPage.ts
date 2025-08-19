@@ -9,4 +9,5 @@ export function useRedirectToLoginPage(isAuthenticated: boolean | null) {
       router.replace(`/login?next=${encodeURIComponent(router.asPath)}`)
     }
   }, [isAuthenticated, router])
+  
 }

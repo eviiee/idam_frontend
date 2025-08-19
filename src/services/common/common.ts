@@ -1,8 +1,8 @@
 export function toCommaSeparated(value: string | number | undefined): string {
-    if (!value) return ""
-    const num = typeof value === 'number' ? value : parseFloat(value.replace(/,/g, ''))
-    if (isNaN(num)) return '' // 숫자로 변환 불가한 경우 빈 문자열 반환
-    return num.toLocaleString() // 쉼표 포맷 적용
+  if (!value) return ""
+  const num = typeof value === 'number' ? value : parseFloat(value.replace(/,/g, ''))
+  if (isNaN(num)) return '' // 숫자로 변환 불가한 경우 빈 문자열 반환
+  return num.toLocaleString() // 쉼표 포맷 적용
 }
 
 export function toYYMMDD(dateStr: string): string {
@@ -19,9 +19,8 @@ export function toYYMMDD(dateStr: string): string {
   return yy + mm + dd;
 }
 
+
 export function getCookie(name: string) {
-  const value = `; ${document.cookie}` // 모든 쿠키 앞에 세미콜론 붙이기
-  const parts = value.split(`; ${name}=`) // 찾고자 하는 이름으로 분리
-  if (parts.length === 2) return parts.pop()?.split(';').shift()
-  return null
+  var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+  if (match) return match[2];
 }

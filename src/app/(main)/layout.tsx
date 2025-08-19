@@ -3,6 +3,7 @@ import "../globals.scss";
 import "./layout.scss";
 import NavigationBar from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { SessionProvider } from "next-auth/react";
 
 export const metadata: Metadata = {
   title: "이담리테일",

@@ -87,7 +87,14 @@ body {
                 flex-direction: row;
                 gap: 8px;
 
-                >a {
+                >a,>button {
+
+                    cursor: pointer;
+
+                    border: 0;
+                    outline: 0;
+                    background-color: transparent;
+
                     padding: 3px;
                     line-height: 1;
                     margin-right: 11px;
@@ -333,6 +340,9 @@ footer {
         background-color: var(--foreground);
 
         >.footer-end-content {
+
+            font-family: nexa;
+
             padding: 40px 80px;
             max-width: 1440px;
             min-width: 1200px;

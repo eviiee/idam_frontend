@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "../../globals.scss";
 import "./layout.scss";
 import ConsoleSideBar from "@/components/layout/ConsoleSideBar";
+import AdminPage from "@/components/auth/AdminPage";
 
 export const metadata: Metadata = {
   title: "이담리테일 관리자",
@@ -16,16 +17,18 @@ export default function AdminLayout({
   return (
     <html lang="ko">
       <body>
-        <div id="root">
-          <div id="app">
-            <div className="wrap">
-              <ConsoleSideBar />
-              <div className="content">
-                {children}
+          <AdminPage>
+            <div id="root">
+              <div id="app">
+                <div className="wrap">
+                  <ConsoleSideBar />
+                  <div className="content">
+                    {children}
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+          </AdminPage>
       </body>
     </html>
   );

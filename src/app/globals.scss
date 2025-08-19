@@ -7,6 +7,13 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'nexa';
+  src: url('/font/Nexa-Heavy.ttf') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root {
   --background: #ffffff;
   --background-light: #f5f5f5;

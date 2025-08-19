@@ -1,3 +1,6 @@
+import { signOut } from "next-auth/react";
+import { AuthComponent } from "../auth/AuthComponent";
+import HeaderLogoutButton from "./HeaderLogoutButton";
 
 export default function NavigationBar() {
     return (
@@ -11,10 +14,14 @@ export default function NavigationBar() {
                     <div className="toolbar-utils-wrap">
                         <a className="toolbar-utils__mass-order-inquiry" href="">📦 대량발주 문의</a>
                         <a href="" className="toolbar-utils__print-inquiry">✒️ 인쇄/각인 문의</a>
-                        <a href="" className="toolbar-utils__sign-in">로그인</a>
-                        <a href="" className="toolbar-utils__sign-out">로그아웃</a>
-                        <a href="" className="toolbar-utils__register">회원가입</a>
-                        <a href="" className="toolbar-utils__my-page">마이페이지</a>
+                        <AuthComponent roles={['guest']}>
+                            <a href="/login" className="toolbar-utils__sign-in">로그인</a>
+                            <a href="/join" className="toolbar-utils__register">회원가입</a>
+                        </AuthComponent>
+                        <AuthComponent loginUser>
+                            <HeaderLogoutButton />
+                            <a href="" className="toolbar-utils__my-page">마이페이지</a>
+                        </AuthComponent>
                     </div>
                 </div>
                 <div className="toolbar-lower">
@@ -33,8 +40,12 @@ export default function NavigationBar() {
                         </div>
                     </div>
                     <div className="toolbar-action-button-wrap">
-                        <a href="/admin" className="toolbar-action-button__console">관리자 콘솔 가기</a>
-                        <a href="" className="toolbar-action-button__order">주문서 작성하기</a>
+                        <AuthComponent adminOnly>
+                            <a href="/admin" className="toolbar-action-button__console">관리자 콘솔 가기</a>
+                        </AuthComponent>
+                        <AuthComponent roles={['guest', 'user']}>
+                            <a href="" className="toolbar-action-button__order">주문서 작성하기</a>
+                        </AuthComponent>
                     </div>
                 </div>
             </div>
