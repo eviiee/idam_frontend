@@ -16,7 +16,7 @@ export default function ConsoleSideBar() {
         list?: [string, string][];
     }[] = [
             { name: "홈", href: "" },
-            { name: "판매 관리", href: "sale", list: [["주문서 작성", "create"], ["주문 조회", "order"]] },
+            { name: "판매 관리", href: "sale", list: [["주문서 작성", "order/new"], ["주문 조회", "order"]] },
             { name: "인쇄 관리", href: "print", list: [["인쇄 목록", "list"], ["인쇄 시안 업로드", "upload"], ["인쇄 시안 조회", "history"]] },
             { name: "상품 관리", href: "product", list: [["상품 목록", "list"], ["신규상품 생성", "new"], ["휴대폰 모델 관리", "model"]] },
             { name: "재고 관리", href: "inventory", list: [["재고 현황", "current"], ["입고 생성", "inbound"]] },
