@@ -8,13 +8,21 @@
     }
 
     > .admin--page__section__content-wrap {
+
         padding: 40px 35px;
         margin-bottom: 30px;
         background-color: white;
         border-radius: 4px;
-        outline: 1px solid #e5e5e5;
+        outline: 1px solid var(--light);
 
         &.no-padding {
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        &.is-transparent {
+            background-color: transparent;
+            outline: 0;
             padding-left: 0;
             padding-right: 0;
         }

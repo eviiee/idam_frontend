@@ -1,34 +1,120 @@
 .print-list-admin-page__print-info-box {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    gap: 7px;
 
-    padding: 40px;
+    padding: 20px;
 
-    > .print-info-box__state {
-        font-size: 0.9rem;
-        font-weight: 400;
-        color: var(--tag-color);
+    background-color: white;
+    border-radius: 8px;
+    outline: 1px solid var(--light);
 
-        &::before {
-            content: '';
-            display: inline-block;
-            width: 0.7rem;
-            height: 0.7rem;
-            border-radius: 2rem;
-            background-color: var(--tag-color);
-            margin-right: 6px;
-        }
 
-        &.blue {
-            --tag-color: var(--blue);
-        }
+    >.print-info-box__tag-wrap {
 
-        &.yellow {
-            --tag-color: var(--yellow);
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 6px;
+
+        >.print-info-box__ {
+
+            &type,
+            &state {
+                font-size: 0.63rem;
+                font-weight: 500;
+                line-height: 1;
+                border-radius: 99rem;
+                padding: 0.35rem 0.45rem;
+                outline: 1px solid var(--tag-color);
+            }
+
+            &type {
+
+                color: var(--tag-color);
+
+                &.black {
+                    --tag-color: rgb(51, 52, 56);
+                }
+            }
+
+            &state {
+                color: white;
+                background-color: var(--tag-color);
+
+                &.blue {
+                    --tag-color: var(--blue);
+                }
+
+                &.red {
+                    --tag-color: var(--red);
+                }
+
+                &.green {
+                    --tag-color: var(--green);
+                }
+
+            }
         }
     }
 
-    > img {
+    >img {
         width: 100%;
+    }
+
+    >.print-info-box__name {
+        font-size: 1.1rem;
+        font-weight: 500;
+        margin-bottom: 4px;
+    }
+
+    >.print-info-box__action-button-wrap {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        gap: 10px;
+        width: 100%;
+
+        >a {
+
+            font-size: 0.9rem;
+            font-weight: 400;
+            text-align: center;
+            padding: 10px 14px;
+            border-radius: 6px;
+
+            transition: all 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+
+            &.print-info-box__upload-button {
+                color: #444;
+                background-color: var(--background);
+
+                &:hover {
+                    background-color: #efefef;
+                }
+            }
+
+            &.print-info-box__download-button {
+
+                &1 {
+                    color: #444;
+                    background-color: var(--background);
+
+                    &:hover {
+                        background-color: #efefef;
+                    }
+                }
+
+                &2 {
+                    color: white;
+                    background-color: var(--blue);
+
+                    &:hover {
+                        background-color: var(--blue-hover);
+                    }
+                }
+            }
+        }
     }
 }

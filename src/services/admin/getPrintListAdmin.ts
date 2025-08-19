@@ -20,9 +20,9 @@ export async function getPrintListAdmin() {
         printList.push(
             {
                 id: i,
-                printName: "프린트" + i,
+                printName: "이담_네이버_홍길동",
                 printType: "레이저 각인",
-                printState: '인쇄 대기',
+                printState: '시안 확인중',
                 printImage: "https://i.ibb.co/8D4hdgJy/Kakao-Talk-20250814-131605024.png",
                 printDesign: "",
             })
