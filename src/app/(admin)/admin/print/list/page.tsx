@@ -36,7 +36,7 @@ export default function PrintListPage() {
                 <Button className={styles['admin-print-list-page__filter']} onClick={() => setFilter('인쇄 대기')} color={filter === '인쇄 대기' ? 'blue' : 'grey'}>⏳ 인쇄 대기</Button>
                 <Button className={styles['admin-print-list-page__filter']} onClick={() => setFilter('인쇄 완료')} color={filter === '인쇄 완료' ? 'blue' : 'grey'}>✔️ 인쇄 완료</Button>
             </AdminPageSection>
-            <AdminPageSection label="시안 목록" className={styles['admin-print-list__wrap']} noPadding>
+            <AdminPageSection label="시안 목록" className={styles['admin-print-list__wrap']} transparent>
                 {
                     printList.map((printItem, i) => <PrintInfoBox printInfo={printItem} key={i} />)
                 }
