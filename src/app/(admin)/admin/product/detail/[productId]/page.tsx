@@ -6,44 +6,39 @@ import AdminPageSection from "@/components/admin/ui/adminPageSection/AdminPageSe
 import TextInput from "@/components/common/ui/input/textinput/TextInput";
 import RadioInput from "@/components/common/ui/input/radio/RadioInput";
 import { useState } from "react";
+import React from "react";
+import BooleanSelect from "@/components/common/ui/input/booleanSelect/BooleanSelect";
+import { motion } from "framer-motion";
 
 interface PageProps {
-    params: {
-        productId: string;
-    };
+    params: Promise<{ productId: string }>;
 }
 
 export default function ProductPage({ params }: PageProps) {
 
-    const [useOptions, setUseOptions] = useState<number>(0)
+    const [useOptions, setUseOptions] = useState<boolean>(false)
 
-    const id = params.productId
-    const newProduct = id === 'new'
+    const { productId } = React.use(params)
+    const newProduct = productId === 'new'
 
     return (
         <div className={styles['product-detail-page-admin']}>
             {newProduct && <AdminPageHeader title="신규상품 등록" />}
             <AdminPageSection label="상품정보">
-                <TextInput icon="상품명" label="상품명" maxLength={50} />
-                <TextInput label="상품명 (송장용)" maxLength={20} />
+                <TextInput label="상품명" maxLength={50} placeholder="예) 이담 푸딩 2way1 5000mAh 도킹형 보조배터리" />
+                <TextInput label="상품명 (송장용)" maxLength={20} placeholder="예) 이담푸딩" />
             </AdminPageSection>
             <AdminPageSection label="옵션">
-                <RadioInput
-                    name='useOptions'
-                    value={useOptions}
-                    onChange={(v) => setUseOptions(v as number)}
-                    options={[{
-                        label: '미사용',
-                        value: 0,
-                        icon: '',
-                    }, {
-                        label: '사용',
-                        value: 1,
-                        icon: '',
-                    },]} />
+                    <BooleanSelect label="상품옵션 사용" value={useOptions} trueLabel="사용" falseLabel="미사용" onChange={(v)=>setUseOptions(v)} />
             </AdminPageSection>
             <AdminPageSection label="이미지"></AdminPageSection>
-            <AdminPageSection label="인쇄여부"></AdminPageSection>
+            <AdminPageSection label="인쇄 가능 여부"></AdminPageSection>
         </div>
     )
+}
+
+function ProductOptionForm() {
+    return <motion.div>
+        
+    </motion.div>
 }
