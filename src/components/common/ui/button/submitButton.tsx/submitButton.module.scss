@@ -1,0 +1,28 @@
+.submit-button-wrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+
+    >button {
+        outline: none;
+        border: none;
+
+        border-radius: 6px;
+
+        padding: 16px 50px;
+        min-width: 80px;
+
+        font-weight: 500;
+        font-size: 1rem;
+        line-height: 1;
+
+        cursor: pointer;
+        background-color: rgb(43, 110, 255);
+        color: white;
+
+        &:hover {
+            background-color: rgb(34, 97, 234);
+        }
+    }
+
+}

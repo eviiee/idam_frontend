@@ -28,6 +28,26 @@
     &:focus-within:not(.errorWrapper) {
         border-color: var(--blue);
     }
+
+    > .close-button {
+        border-radius: 99rem;
+        padding: 5px;
+        font-size: 0.6rem;
+        filter: saturate(0);
+        background-color: var(--background-light);
+        opacity: 0.7;
+        cursor: pointer;
+
+        transition: scale 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+
+        &:hover {
+            transform: scale(1.1);
+        }
+
+        &.is-hidden {
+            display: none;
+        }
+    }
 }
 
 .focused {

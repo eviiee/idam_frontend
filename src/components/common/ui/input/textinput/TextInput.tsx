@@ -1,6 +1,6 @@
 'use client'
 
-import React, { ChangeEventHandler, InputHTMLAttributes, ReactNode, useRef, useState } from "react";
+import React, { ChangeEventHandler, InputHTMLAttributes, MouseEventHandler, ReactNode, useRef, useState } from "react";
 import styles from "./textInput.module.scss";
 import clsx from "clsx";
 
@@ -8,6 +8,7 @@ interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
   icon?: ReactNode;       // 입력창 왼쪽 아이콘
+  initialValue?: string;
 }
 
 const TextInput: React.FC<TextInputProps> = ({
@@ -16,15 +17,23 @@ const TextInput: React.FC<TextInputProps> = ({
   icon,
   type = "text",
   maxLength,
+  initialValue,
   ...props
 }) => {
 
   const [isFocused, setIsFocused] = useState(false);
-  const [value, setValue] = useState<string>((props.value ?? "").toString())
+  const [value, setValue] = useState<string>((initialValue ?? "").toString())
 
-  const onChange : ChangeEventHandler<HTMLInputElement> = (e) => {
-    if (maxLength && e.target.value.length > maxLength) return
-    setValue(e.target.value)
+  const onChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const v = e.target.value
+    if ((type == "number" || type == "tel") && !Number(v)) return
+    if (maxLength && v.length > maxLength) return
+    setValue(v)
+  }
+
+  const handleClearButtonClick: MouseEventHandler<HTMLDivElement> = (e) => {
+    e.preventDefault()
+    setValue("")
   }
 
   return (
@@ -43,6 +52,7 @@ const TextInput: React.FC<TextInputProps> = ({
           onChange={onChange}
           {...props}
         />
+        <div className={clsx(styles['close-button'], (!value.length || !isFocused) && styles['is-hidden'])} onMouseDown={handleClearButtonClick}>❌</div>
         {
           maxLength &&
           <div className={clsx(styles['max-length'])}>

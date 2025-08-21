@@ -1,9 +1,11 @@
 
 
 .product-detail-page-admin {
-    .product-prices {
-        display: flex;
-        flex-direction: row;
-        gap: 20px;
+    .buttons {
+        text-align: right;    
+
+        >.submit-button {
+            padding: 16px 30px;
+        }
     }
 }

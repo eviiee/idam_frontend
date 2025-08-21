@@ -8,6 +8,7 @@ interface PageProps {
 }
 
 export default async function ProductPage({ params }: PageProps) {
+    
     const productData = await getProductInfo(params.productKey);
 
     const thumbnails = [productData.thumbnail]

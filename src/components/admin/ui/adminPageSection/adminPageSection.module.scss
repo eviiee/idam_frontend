@@ -33,10 +33,14 @@
 
     &.is-collapsable {
 
+        overflow: hidden;
+
         >.admin--page__section__title {
 
             position: relative;
             cursor: pointer;
+
+            margin-bottom: -1px;
 
             &::after {
                 content: "";
