@@ -1,30 +1,84 @@
-
 .admin-page__section {
-    > .admin--page__section__title {
-        font-size: 1rem;
-        font-weight: 400;
+
+    background-color: white;
+    border: 1px solid var(--light);
+    margin-bottom: 30px;
+    border-radius: 6px;
+
+    >.admin--page__section__title {
+
+        padding: 40px var(--admin-page-section-padding);
+        font-size: 1.5rem;
+        font-weight: 500;
         line-height: 1;
-        margin-bottom: 16px;
+
+        border-bottom: 1px solid var(--light);
     }
 
-    > .admin--page__section__content-wrap {
+    >.admin--page__section__content-wrap {
 
-        padding: 40px 35px;
-        margin-bottom: 30px;
-        background-color: white;
-        border-radius: 4px;
-        outline: 1px solid var(--light);
+        overflow: hidden;
 
-        &.no-padding {
-            padding-left: 0;
-            padding-right: 0;
+        >.children-wrap {
+
+            padding: 40px var(--admin-page-section-padding);
+
+            &.no-padding {
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+        }
+    }
+
+    &.is-collapsable {
+
+        >.admin--page__section__title {
+
+            position: relative;
+            cursor: pointer;
+
+            &::after {
+                content: "";
+                position: absolute;
+                right: var(--admin-page-section-padding);
+                width: 1rem;
+                height: 1rem;
+                border: 2px solid var(--foreground-blur);
+                border-top: none;
+                border-left: none;
+
+                transition: transform 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+            }
+
+            &::after {
+                top: 50%;
+                transform: translateY(-70%) rotate(45deg);
+            }
+
+            &.is-collapsed {
+                ::after {
+                    transform: translateY(-30%) rotate(-135deg);
+                }
+            }
         }
 
-        &.is-transparent {
-            background-color: transparent;
-            outline: 0;
-            padding-left: 0;
-            padding-right: 0;
+    }
+
+    &.is-transparent {
+        background-color: transparent;
+        border: 0;
+
+        >.admin--page__section__title {
+            padding: 10px 0 30px;
+            border-bottom: 0;
+        }
+
+        >.admin--page__section__content-wrap {
+            >.children-wrap {
+
+                padding-top: 0;
+            }
         }
     }
 }

@@ -1,5 +1,9 @@
+
+
 import clsx from 'clsx'
 import styles from './adminPageSection.module.scss'
+import { motion } from 'framer-motion'
+import { useState } from 'react'
 
 export interface AdminPageSectionProps {
     label?: string
@@ -7,6 +11,7 @@ export interface AdminPageSectionProps {
     children?: React.ReactNode
     noPadding?: boolean
     transparent?: boolean
+    collapsable?: boolean
 }
 
 export default function AdminPageSection({
@@ -15,12 +20,25 @@ export default function AdminPageSection({
     children,
     noPadding = false,
     transparent = false,
-} : AdminPageSectionProps) {
+    collapsable = false,
+}: AdminPageSectionProps) {
+
+    const [isOpen, setIsOpen] = useState<boolean>(true)
+
+    const onClick = () => { setIsOpen(!isOpen) }
+    const animatedHeight = isOpen ? "auto" : 0
+
+
     return (
-        <div className={styles['admin-page__section']}>
-            {label && <h3 className={styles['admin--page__section__title']}>{label}</h3>}
-            <div className={clsx(styles['admin--page__section__content-wrap'], noPadding && styles['no-padding'], transparent && styles['is-transparent'], className)}>
-                {children}
-            </div>
+        <div className={clsx(styles['admin-page__section'], collapsable && styles['is-collapsable'], transparent && styles['is-transparent'])}>
+            {label && <h3 onClick={collapsable ? onClick : undefined} className={clsx(styles['admin--page__section__title'], !isOpen && styles['is-collapsed'])}>{label}</h3>}
+            <motion.div
+                animate={{ height: animatedHeight }}
+                className={clsx(styles['admin--page__section__content-wrap'])}
+            >
+                <div className={clsx(styles['children-wrap'],(noPadding || transparent) && styles['no-padding'], className)}>
+                    {children}
+                </div>
+            </motion.div>
         </div>)
 }

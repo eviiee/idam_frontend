@@ -17,7 +17,7 @@ export default function AdminLayout({
   return (
     <html lang="ko">
       <body>
-          <AdminPage>
+          {/* <AdminPage> */}
             <div id="root">
               <div id="app">
                 <div className="wrap">
@@ -28,7 +28,7 @@ export default function AdminLayout({
                 </div>
               </div>
             </div>
-          </AdminPage>
+          {/* </AdminPage> */}
       </body>
     </html>
   );

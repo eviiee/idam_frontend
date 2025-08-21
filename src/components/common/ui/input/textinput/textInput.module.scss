@@ -1,18 +1,21 @@
 .wrapper {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
     margin-bottom: 1.5rem;
     width: 100%;
 }
 
 .label {
     font-size: 1rem;
+    line-height: 1;
     color: #333;
-    margin-bottom: 0.45rem;
     font-weight: 500;
+    width: 230px;
 }
 
 .inputWrapper {
+    flex-grow: 1;
     display: flex;
     align-items: center;
     border: 1px solid #ccc;
@@ -22,7 +25,7 @@
     transition: all 0.2s ease;
     position: relative;
 
-    &:focus-within {
+    &:focus-within:not(.errorWrapper) {
         border-color: var(--blue);
     }
 }
@@ -33,10 +36,10 @@
 
 .errorWrapper {
     border-color: #ef4444;
-    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
 }
 
 .input {
+    line-height: 1;
     flex: 1;
     border: none;
     outline: none;
@@ -58,15 +61,26 @@
     color: var(--foreground-light);
 }
 
-.button {
+.max-length {
+    font-size: 0.8rem;
+    line-height: 1;
     margin-left: 0.5rem;
+    margin-right: 0.2rem;
+    color: #666;
     display: flex;
     align-items: center;
-    cursor: pointer;
+    pointer-events: none;
+
+    >span {
+        &.is-zero {
+            color: #ccc;
+        }
+    }
 }
 
 .errorMessage {
     color: #ef4444;
     font-size: 0.75rem;
     margin-top: 0.25rem;
+    margin-left: 0.2rem;
 }
