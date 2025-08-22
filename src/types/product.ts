@@ -3,6 +3,7 @@ export interface PhoneModel {
     modelType: '갤럭시' | '아이폰';
     modelName: string;
     modelNumber?: string | null;
+    name?: string
 }
 
 export interface ProductOption {

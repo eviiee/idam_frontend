@@ -1,0 +1,110 @@
+.phone-model-search-wrap {
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 20px 0;
+
+    >.phone-model-search-query {
+        display: flex;
+        flex-direction: row;
+        border-radius: 8px;
+        border: 1px solid var(--background-shade);
+        overflow: hidden;
+
+        margin-bottom: 20px;
+
+        > input {
+            flex: 1;
+            
+            border: 0;
+            outline: 0;
+            padding: 16px 20px;
+
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1;
+
+            &::placeholder {
+                color: #ccc;
+            }
+        }
+
+        > button {
+            border: 0;
+            outline: 0;
+            border-left: 1px solid var(--background-shade);
+
+            background-color: transparent;
+
+            width: 60px;
+
+            font-size: 1.3rem;
+
+            cursor: pointer;
+
+            &:hover {
+                background-color: var(--background-light);
+            }
+
+        }
+    }
+
+    >.phone-model-search-result {
+
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 6px;
+
+        border-radius: 8px;
+        background-color: #f5f5f5;
+
+        padding: 18px;
+
+        margin-bottom: 20px;
+
+        > button {
+
+            display: flex;
+            flex-direction: row;
+
+            color: #444;
+            background-color: #fefefe;
+            border: 1px solid var(--background-shade);
+            border-radius: 99rem;
+            padding: 6px 12px;
+
+            font-size: 0.8rem;
+            font-weight: 400;
+            cursor: pointer;
+
+            &.is-used {
+                background-color: var(--foreground-light);
+                color: white;
+            }
+        }
+    }
+
+    >.product-phone-model-wrap {
+        border: 1px solid var(--background-shade);
+        border-radius: 8px;
+        padding: 20px;
+
+        > .product-phone-model-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+
+            > .product-phone-model-row {
+                list-style-type: none;
+                line-height: 1;
+                padding: 14px 20px;
+                
+                border: 1px solid var(--background-shade);
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba($color: #000000, $alpha: 0.02);
+            }
+        }
+    }
+}
