@@ -12,15 +12,17 @@ import { motion } from "framer-motion";
 import ImageInput from "@/components/common/ui/input/imageInput/ImageInput";
 import Collapsable from "@/components/common/ui/wrapper/collapsable/Collapsable";
 import Button from "@/components/common/ui/button/Button";
+import SubmitButton from "@/components/common/ui/button/submitButton.tsx/SubmitButton";
 
 interface PageProps {
     params: Promise<{ productId: string }>;
 }
 
 export default function ProductPage({ params }: PageProps) {
-
+    
     const [productName, setProductName] = useState<string>("")
     const [useOptions, setUseOptions] = useState<boolean>(false)
+    const [usePhoneModels, setUsePhoneModels] = useState<boolean>(false)
 
     const { productId } = React.use(params)
     const newProduct = productId === 'new'
@@ -28,6 +30,7 @@ export default function ProductPage({ params }: PageProps) {
     return (
         <div className={styles['product-detail-page-admin']}>
             {newProduct && <AdminPageHeader title="신규상품 등록" />}
+            <form>
             <AdminPageSection label="상품정보" collapsable>
                 <TextInput label="상품명" maxLength={50} placeholder="예) 이담 푸딩 2way1 5000mAh 도킹형 보조배터리" />
                 <TextInput label="상품명 (송장용)" maxLength={20} placeholder="예) 이담푸딩" />
@@ -35,12 +38,13 @@ export default function ProductPage({ params }: PageProps) {
                 <TextInput icon="₩" label="기본 판매가" type="number" error="에러 메시지입니다." />
             </AdminPageSection>
             <AdminPageSection label="옵션 정보" collapsable>
-                <BooleanSelect label="상품옵션 사용" value={useOptions} trueLabel="사용" falseLabel="미사용" onChange={(v) => setUseOptions(v)} />
+                <BooleanSelect label="상품옵션 사용" value={useOptions} trueLabel="사용" falseLabel="미사용" onChange={setUseOptions} />
                 <Collapsable isOpen={useOptions} initiallyCollapsed>
-                    <div>asldfj;slkdfjl</div>
-                    <div>a;sdkfj;lsdkfj;lsdk</div>
-                    <div>a;sdklfj;alsdkfj;lskdjf;lsjf;lskd</div>
-                    <div>sldkjfslkdjflksd</div>
+                    <div className={styles['options-phone-model-wrap']}>
+                        <BooleanSelect label="휴대폰 기종 사용" trueLabel="사용" falseLabel="미사용" value={usePhoneModels} onChange={setUsePhoneModels} />
+                    </div>
+                    <div className={styles['options-option-info-wrap']}></div>
+                    <div className={styles['options-option-list-wrap']}></div>
                 </Collapsable>
             </AdminPageSection>
             <AdminPageSection label="이미지 정보" collapsable>
@@ -52,6 +56,8 @@ export default function ProductPage({ params }: PageProps) {
             <div className={styles.buttons}>
                 <Button color="blue" onClick={()=>{}} className={styles['submit-button']}>등록</Button>
             </div>
+            <SubmitButton label={newProduct ? '등록' : '저장'} />
+            </form>
         </div>
     )
 }
