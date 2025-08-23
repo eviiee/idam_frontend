@@ -1,12 +1,12 @@
 .wrapper {
     display: flex;
     flex-direction: row;
-    align-items: center;
     margin-bottom: 1.5rem;
     width: 100%;
 }
 
 .label {
+    padding-top: 0.8rem;
     font-size: 1rem;
     line-height: 1;
     color: #333;
@@ -14,8 +14,12 @@
     width: 230px;
 }
 
-.inputWrapper {
+.errorAligner {
     flex-grow: 1;
+
+}
+
+.inputWrapper {
     display: flex;
     align-items: center;
     border: 1px solid #ccc;
@@ -29,7 +33,7 @@
         border-color: var(--blue);
     }
 
-    > .close-button {
+    >.close-button {
         border-radius: 99rem;
         padding: 5px;
         font-size: 0.6rem;

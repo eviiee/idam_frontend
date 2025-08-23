@@ -1,5 +1,6 @@
-import { SimplePhoneModel } from "@/types/api_responses/getPhoneModels"
-import { createClientApi } from "../settings"
+
+import { createClientApi, serverApi } from "../settings"
+import { PhoneModel, SimplePhoneModel } from "@/types/product"
 
 export async function getPhoneModels(): Promise<SimplePhoneModel[]> {
 
@@ -10,6 +11,18 @@ export async function getPhoneModels(): Promise<SimplePhoneModel[]> {
         return res.data
     } catch (e) {
         console.debug(e)
+        throw e;
+    }
+}
+
+export async function getDetailedPhoneModelsFromServer(): Promise<PhoneModel[]> {
+
+    const api = serverApi
+
+    try {
+        const res = await api.get(process.env.NEXT_PUBLIC_API_PHONE_MODELS_ADMIN!)
+        return res.data
+    } catch (e) {
         throw e;
     }
 }

@@ -1,13 +1,16 @@
 .boolean-select-wrap {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 20px;
 
     >span {
         font-size: 1rem;
         color: #333;
         margin-bottom: 0.45rem;
         font-weight: 500;
+        width: 230px;
     }
 
     >.boolean-select {
@@ -34,8 +37,15 @@
             transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
 
             &.is-selected {
-                background-color: var(--foreground-light);
                 color: white;
+
+                &.true {
+                    background-color: var(--blue);
+                }
+
+                &.false {
+                    background-color: var(--foreground-light);
+                }
             }
 
             &:not(.is-selected) {

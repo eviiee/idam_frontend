@@ -5,10 +5,10 @@ import styles from './productListPage.module.scss'
 import AdminPageSection from '@/components/admin/ui/adminPageSection/AdminPageSection'
 import { useEffect, useState } from 'react'
 import Product from '@/types/product'
-import { getProductList } from '@/services/admin/getProductListAdmin'
 import Button from '@/components/common/ui/button/Button'
 import { toCommaSeparated, toYYMMDD } from '@/services/common/common'
 import ProductListPageTable from './components/ProductListPageTable'
+import { getProducts } from '@/services/admin/products'
 
 type PageSize = 20 | 50 | 100 | 500
 
@@ -24,7 +24,7 @@ export default function ProductListAdminPage() {
     }, [])
 
     const updateProductList = async () => {
-        const newProductList = await getProductList()
+        const newProductList = await getProducts()
         setProductList(newProductList)
     }
 
@@ -33,10 +33,10 @@ export default function ProductListAdminPage() {
         <td>판매중</td>
         <td>{item.productName}</td>
         <td>256</td>
-        <td>{item.stock}</td>
+        {/* <td>{item.stock}</td>
         <td>{toCommaSeparated(item.purchasePrice)}</td>
-        <td>{toCommaSeparated(item.price)}</td>
-        <td>{toYYMMDD(item.createdAt)}</td>
+        <td>{toCommaSeparated(item.price)}</td> */}
+        <td>{toYYMMDD(item.createdAt!)}</td>
         <td><a href={`/product/${item.id}`} target='_blank' rel='noopener noreferrer'>상세 보기</a></td>
         <td><Button href='' simpleLink>ㄴㅇㄹ</Button></td>
     </tr>)

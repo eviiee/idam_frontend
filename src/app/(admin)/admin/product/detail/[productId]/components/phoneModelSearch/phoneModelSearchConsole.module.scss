@@ -2,8 +2,8 @@
 
     display: flex;
     flex-direction: column;
-
-    padding: 20px 0;
+    
+    margin-bottom: 20px;
 
     >.phone-model-search-query {
         display: flex;
@@ -62,8 +62,6 @@
 
         padding: 18px;
 
-        margin-bottom: 20px;
-
         > button {
 
             display: flex;
@@ -71,7 +69,7 @@
 
             color: #444;
             background-color: #fefefe;
-            border: 1px solid var(--background-shade);
+            border: 1px solid #ccc;
             border-radius: 99rem;
             padding: 6px 12px;
 
@@ -82,28 +80,6 @@
             &.is-used {
                 background-color: var(--foreground-light);
                 color: white;
-            }
-        }
-    }
-
-    >.product-phone-model-wrap {
-        border: 1px solid var(--background-shade);
-        border-radius: 8px;
-        padding: 20px;
-
-        > .product-phone-model-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-
-            > .product-phone-model-row {
-                list-style-type: none;
-                line-height: 1;
-                padding: 14px 20px;
-                
-                border: 1px solid var(--background-shade);
-                border-radius: 8px;
-                box-shadow: 0 4px 8px rgba($color: #000000, $alpha: 0.02);
             }
         }
     }

@@ -13,7 +13,7 @@ export default async function ProductPage({ params }: PageProps) {
 
     const thumbnails = [productData.thumbnail]
     if (productData.thumbnailHover) thumbnails.push(productData.thumbnailHover)
-    for (const image of productData.additionalImages) thumbnails.push(image.image)
+    // for (const image of productData.additionalImages) thumbnails.push(image.image)
 
     return (
         <div className={styles.productPage}>

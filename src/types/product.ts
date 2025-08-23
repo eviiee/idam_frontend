@@ -1,9 +1,16 @@
-export interface PhoneModel {
-    id: number;
-    modelType: '갤럭시' | '아이폰';
+
+export type PhoneModelType = "갤럭시" | "아이폰"
+
+export interface SimplePhoneModel {
+    id?: number | string,
+    modelType?: '갤럭시' | '아이폰',
+    displayName?: string,
+}
+
+export interface PhoneModel extends SimplePhoneModel {
     modelName: string;
     modelNumber?: string | null;
-    name?: string
+    order?: number
 }
 
 export interface ProductOption {
@@ -28,27 +35,61 @@ export interface ProductImage {
     image: string;
 }
 
-export default interface Product {
-    id: number;
-    productName: string;
-    productAlias: string;
-    useOptions: boolean;
-    usePhoneModels: boolean;
-    option1?: string;
-    option2?: string;
-    option3?: string;
-    thumbnail: string;
-    thumbnailHover?: string | null;
-    additionalImages: ProductImage[];
-    detailImage: string;
-    tags: ProductTag[];
-    purchaseLink?: string | null;
-    options: ProductOption[];
-    createdAt: string;
-    updatedAt: string;
+export interface ProductPhoneModelOption {
+    id?: number | string;  // ProductPhoneModelOption 모델의 PK
+    compatiblePhoneModels: SimplePhoneModel[];
+}
 
-    stock?: number | null;
-    purchasePrice?: number;
-    price?: number;
-    peakPrice?: number;    
+export default interface Product {
+    id?: number;
+    productName?: string;
+    productAlias?: string;
+    useOptions?: boolean;
+    usePhoneModels?: boolean;
+    option1?: string | null;
+    option2?: string | null;
+    option3?: string | null;
+    thumbnail?: string;
+    thumbnailHover?: string | null;
+    detailImage?: string;
+    createdAt?: string;
+    updatedAt?: string;
+    purchaseLink?: string;
+    engravable?: boolean;
+    printable?: boolean;
+    tags?: number[];
+
+    productPhoneModelOptions?: ProductPhoneModelOption[];
+    availablePhoneModels?: SimplePhoneModel[];
+    minPurchasePrice?: number;
+    minPrice?: number;
+}
+
+export interface NewProduct {
+    productName?: string;
+    productAlias?: string;
+    useOptions?: boolean;
+    usePhoneModels?: boolean;
+
+
+    option1?: string | null;
+    option2?: string | null;
+    option3?: string | null;
+
+
+    thumbnail?: File;
+    thumbnailHover?: File;
+    detailImage?: File[];
+
+
+    purchaseLink?: string;
+    engravable?: boolean;
+    printable?: boolean;
+
+
+    tags?: number[];
+
+    phoneModelOptions?: ProductPhoneModelOption[];
+    options?: ProductOption[];
+
 }

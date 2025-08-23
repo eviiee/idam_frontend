@@ -1,0 +1,89 @@
+.product-phone-model-wrap {
+    background-color: var(--background-light);
+    border-radius: 8px;
+    padding: 20px;
+
+    > p {
+        text-align: center;
+        padding: 10px 0;
+        line-height: 1;
+        font-size: 1.1rem;
+        color: #999;
+    }
+
+    >.product-phone-model-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        >.product-phone-model-row {
+
+            background-color: var(--background);
+
+            list-style-type: none;
+            line-height: 1;
+
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba($color: #000000, $alpha: 0.02);
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+
+            &.is-selected {
+                border: 1px solid var(--blue);
+            }
+
+            >.product-phone-model-row__checkbox {
+
+                flex-shrink: 0;
+
+                width: 24px;
+                height: 24px;
+
+                border: 1px solid #ccc;
+                border-radius: 4px;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                font-size: 0.8rem;
+
+                margin: 14px;
+
+                &.is-selected {
+                    background-color: var(--blue);
+
+                    &::after {
+                        content: "✔️";
+                        filter: brightness(100);
+                    }
+                }
+            }
+
+            >.product-phone-model-row__model-wrap {
+
+                display: flex;
+                gap: 8px;
+                flex-direction: row;
+                flex-wrap: wrap;
+                border-left: 1px solid #ccc;
+                padding: 14px;
+
+                >.product-phone-model-row__model {
+                    font-size: 0.8rem;
+                    border: 1px solid #ccc;
+                    border-radius: 99rem;
+                    background-color: var(--background);
+                    padding: 8px 12px;
+
+                    white-space: nowrap;
+                    line-height: 1;
+                }
+            }
+
+        }
+    }
+}

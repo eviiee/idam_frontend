@@ -59,11 +59,11 @@ export default async function CompanyDetailPage({ params }: PageProps) {
             <form action={saveCompany}>
                 <AdminPageSection label='거래처 정보' collapsable>
                     <input defaultValue={id} readOnly name='id' style={{display:'none'}} />
-                    <TextInput label='거래처명' name='name' maxLength={50} initialValue={company?.name || ""} required />
-                    <TextInput label='주소' name='address' maxLength={300} initialValue={company?.address || ""} />
-                    <TextInput label='연락처' name='contact' maxLength={12} initialValue={company?.contact || ""} type='tel' />
-                    <TextInput label='이메일' name='email' initialValue={company?.email || ""} />
-                    <TextInput label='사업자 등록번호' name='bizRegNum' maxLength={10} initialValue={company?.bizRegNum || ""} type='number' />
+                    <TextInput label='거래처명' name='name' maxLength={50} defaultValue={company?.name || ""} required />
+                    <TextInput label='주소' name='address' maxLength={300} defaultValue={company?.address || ""} />
+                    <TextInput label='연락처' name='contact' maxLength={12} defaultValue={company?.contact || ""} type='tel' />
+                    <TextInput label='이메일' name='email' defaultValue={company?.email || ""} />
+                    <TextInput label='사업자 등록번호' name='bizRegNum' maxLength={10} defaultValue={company?.bizRegNum || ""} type='number' />
                 </AdminPageSection>
                 <SubmitButton />
             </form>

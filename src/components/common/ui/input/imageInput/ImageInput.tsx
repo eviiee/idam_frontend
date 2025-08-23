@@ -10,17 +10,24 @@ type Props = {
     size?: string;
     /** 허용할 파일 타입 */
     accept?: string;
+    file?: File | null
+    setFile?: (f:File | null) => void
 };
 
 export default function ImageInput({
     onConfirm,
     size = "200px",
     accept = "image/*",
+    file: controlledFile,
+    setFile: setControlledFile,
 }: Props) {
     const inputRef = useRef<HTMLInputElement | null>(null);
-    const [file, setFile] = useState<File | null>(null);
+    const [uncontrolledFile, setUncontrolledFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [isDragging, setIsDragging] = useState(false);
+
+    const file = controlledFile === undefined ? uncontrolledFile : controlledFile
+    const setFile = setControlledFile ?? setUncontrolledFile
 
     // 파일 선택 트리거
     const openFilePicker = () => inputRef.current?.click();
