@@ -7,6 +7,6 @@ export default async function getProductDetailAdmin(id:string){
 
     if (id === 'new') return null
     const api = serverApi
-    const res = await api.get(`${process.env.NEXT_PUBLIC_API_PRODUCT_ADMIN}/${id}`)
+    const res = await api.get(`${process.env.NEXT_PUBLIC_API_PRODUCT_ADMIN}${id}/`)
     return res.data as Product
 }

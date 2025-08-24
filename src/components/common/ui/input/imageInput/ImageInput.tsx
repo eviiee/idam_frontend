@@ -12,6 +12,7 @@ type Props = {
     accept?: string;
     file?: File | null
     setFile?: (f:File | null) => void
+    maxSize?: number
 };
 
 export default function ImageInput({
@@ -20,6 +21,7 @@ export default function ImageInput({
     accept = "image/*",
     file: controlledFile,
     setFile: setControlledFile,
+    maxSize,
 }: Props) {
     const inputRef = useRef<HTMLInputElement | null>(null);
     const [uncontrolledFile, setUncontrolledFile] = useState<File | null>(null);
@@ -40,6 +42,12 @@ export default function ImageInput({
             alert("이미지 파일만 업로드할 수 있어요.");
             e.target.value = "";
             return;
+        }
+        if (maxSize && f.size / 1024 / 1024 >= maxSize) {
+          alert(`${maxSize}MB 미만의 이미지만 가능합니다`)
+          e.target.value = ""
+          return
+          
         }
         setFile(f);
     };

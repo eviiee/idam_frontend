@@ -14,14 +14,14 @@ export interface PhoneModel extends SimplePhoneModel {
 }
 
 export interface ProductOption {
-    id: number;
-    phoneModel?: PhoneModel | null;
-    option1?: string | null;
-    option2?: string | null;
-    option3?: string | null;
-    stock: number;
-    inboundPrice: number;
-    price: number;
+    id?: number;
+    phoneModel?: ProductPhoneModelOption | null;
+    option1?: string;
+    option2?: string;
+    option3?: string;
+    stock?: number;
+    inboundPrice?: number;
+    price?: number;
 }
 
 export interface ProductTag {
@@ -59,37 +59,40 @@ export default interface Product {
     printable?: boolean;
     tags?: number[];
 
-    productPhoneModelOptions?: ProductPhoneModelOption[];
+    phoneModelOptions?: ProductPhoneModelOption[];
     availablePhoneModels?: SimplePhoneModel[];
     minPurchasePrice?: number;
     minPrice?: number;
 }
 
-export interface NewProduct {
-    productName?: string;
-    productAlias?: string;
-    useOptions?: boolean;
-    usePhoneModels?: boolean;
-
-
+export interface NewProductJSONData {
+    productName: string;
+    productAlias: string;
+    useOptions: boolean;
+    usePhoneModels: boolean;
     option1?: string | null;
     option2?: string | null;
     option3?: string | null;
+    detailImage: string
+    purchaseLink: string
+    engravable: boolean
+    printable: boolean
 
+    options: NewProductOptionJSONData[]
+    phoneModelOptions: NewProductPhoneModelOptionJSONData[]
+}
 
-    thumbnail?: File;
-    thumbnailHover?: File;
-    detailImage?: File[];
+export interface NewProductOptionJSONData {
+    phoneModelTemp?: string;
+    option1?: string;
+    option2?: string;
+    option3?: string;
+    stock: number;
+    inboundPrice: number;
+    price: number;
+}
 
-
-    purchaseLink?: string;
-    engravable?: boolean;
-    printable?: boolean;
-
-
-    tags?: number[];
-
-    phoneModelOptions?: ProductPhoneModelOption[];
-    options?: ProductOption[];
-
+export interface NewProductPhoneModelOptionJSONData {
+    tempId: string;
+    compatiblePhoneModels: {phoneModel:number}[];
 }

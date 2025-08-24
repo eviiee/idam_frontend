@@ -53,7 +53,7 @@ const columns: ColumnDef<Product>[] = [
     {
         id: 'modify',
         header: () => '수정',
-        cell: info => <Button href='' small simpleLink>수정</Button>,
+        cell: ({ row }) => <Button href={`detail/${row.original.id}`} small simpleLink>수정</Button>,
     },
 ]
 

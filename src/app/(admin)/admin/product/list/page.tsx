@@ -43,7 +43,7 @@ export default function ProductListAdminPage() {
 
     return (
         <div>
-            <AdminPageHeader title='상품 목록' buttonLabel='+ 신규상품' href='./new' useButton />
+            <AdminPageHeader title='상품 목록' buttonLabel='+ 신규상품' href='detail/new' useButton />
             <AdminPageSection />
             <AdminPageSection noPadding>
                 <table>
