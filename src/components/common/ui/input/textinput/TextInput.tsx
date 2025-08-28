@@ -50,7 +50,7 @@ const TextInput: React.FC<TextInputProps> = ({
 
   return (
     <div className={styles.wrapper}>
-      {label && <label className={styles.label}>{label}</label>}
+      {label && <span className={styles.label}>{label}</span>}
       <div className={styles.errorAligner}>
         <div
           className={clsx(styles.inputWrapper, isFocused && styles.focused, error && styles.errorWrapper)}

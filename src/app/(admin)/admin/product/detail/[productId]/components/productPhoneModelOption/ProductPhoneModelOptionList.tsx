@@ -47,7 +47,7 @@ function ProductPhoneModelOptionItem({
 
     const handleCheck = () => {
         if (isSelected) setSelected(null)
-        else setSelected(ppmo.id)
+        else setSelected(ppmo.id!)
     }
 
     return <motion.li

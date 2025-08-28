@@ -1,0 +1,95 @@
+.tag-input-wrap {
+    display: flex;
+    width: 100%;
+    margin-bottom: 1.5rem;
+
+    >.tag-input__label {
+        color: #333;
+        width: 230px;
+        padding-top: 0.8rem;
+        font-size: 1rem;
+        font-weight: 500;
+        line-height: 1;
+
+        flex-shrink: 0;
+    }
+
+    >.tag-input__input-wrap {
+        flex-grow: 1;
+
+        >.tag-input__input {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 0.8rem 0.9rem;
+            font-size: 1rem;
+            line-height: 1;
+
+            outline: 0;
+
+            transition: all 0.2s;
+
+            width: 100%;
+
+            &:focus {
+                border: 1px solid var(--blue);
+            }
+        }
+
+        >.tag-input__tags-wrap {
+
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+
+            align-items: baseline;
+
+            >.tag-input__tag {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                padding: 5px 7px;
+                border: 1px solid #ccc;
+                border-radius: 99rem;
+
+                font-size: 0.8rem;
+                font-weight: 400;
+
+                &:first-child {
+                    margin-top: 10px;
+                }
+
+                >span {
+                    margin-left: 4px;
+                    line-height: 1;
+                    color: #555;
+
+                    white-space: nowrap;
+                    word-break: keep-all;
+                }
+
+                >button {
+
+                    font-size: 0.6rem;
+                    padding: 4px;
+                    margin: 0;
+                    border-radius: 99rem;
+                    outline: 0;
+                    background-color: #fff;
+                    border: 0;
+
+                    filter: saturate(0.5);
+
+                    cursor: pointer;
+
+                    opacity: 0.6;
+
+                    &:hover {
+                        background-color: var(--background-light);
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+    }
+}

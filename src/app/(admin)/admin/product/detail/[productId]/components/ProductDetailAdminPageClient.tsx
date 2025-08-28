@@ -17,6 +17,7 @@ import ProductPhoneModelOptionList from './productPhoneModelOption/ProductPhoneM
 import { createProductAdmin } from '@/services/admin/products'
 import ParsePPMO from '../utils/newProductPhoneModelOptionsParser'
 import { toast } from 'react-toastify'
+import TagInput from '@/components/admin/ui/inputs/tagInputs/TagInput'
 
 interface Validation {
     productName?: string
@@ -80,6 +81,16 @@ export default function ProductDetailAdminPageClientWrapper({
         }
     }
 
+    // 상품옵션 생성
+    const createOptions = () => {
+        const options: ProductOption[] = []
+        for (let i = 0; i < (usePhoneModels ? productPhoneModelOption.length : 1) * Math.max(option1Values.length, 1) * Math.max(option2Values.length, 1) * Math.max(option3Values.length, 1); i++) {
+            const option : ProductOption = {
+                id: i,
+            }
+        }
+    }
+
     // 상품정보 검수
     const validateProductInfo = (): [boolean, ReactNode] => {
         const nameIsValid = validateDefaultInfo()
@@ -92,7 +103,7 @@ export default function ProductDetailAdminPageClientWrapper({
         return [true, ""]
     }
 
-    // 상품명 검수
+    // 기본정보 검수
     const validateDefaultInfo = (): [boolean, ReactNode] => {
         if (!productName) {
             setProductNameError("상품명을 입력해주세요")
@@ -186,7 +197,7 @@ export default function ProductDetailAdminPageClientWrapper({
         })
         try {
             await promise
-        } catch {}
+        } catch { }
     }
 
     return (
@@ -195,22 +206,32 @@ export default function ProductDetailAdminPageClientWrapper({
             <AdminPageSection label="상품정보" collapsable>
                 <TextInput label="상품명" value={productName} onChange={(e) => setProductName(e.target.value)} maxLength={50} placeholder="예) 이담 푸딩 2way1 5000mAh 도킹형 보조배터리" />
                 <TextInput label="상품명 (송장용)" value={productAlias} onChange={(e) => setProductAlias(e.target.value)} maxLength={20} placeholder="예) 이담푸딩" />
-                <TextInput icon="₩" label="기본 입고가" value={defaultPurchasePrice} onChange={(e)=>setDefaultPurchasePrice(e.target.value)} type="number" readOnly={Boolean(defaultValue)} />
-                <TextInput icon="₩" label="기본 판매가" value={defaultPrice} onChange={(e)=>setDefaultPrice(e.target.value)} type="number" readOnly={Boolean(defaultValue)} />
+                <TextInput icon="₩" label="기본 입고가" value={defaultPurchasePrice} onChange={(e) => setDefaultPurchasePrice(e.target.value)} type="number" readOnly={Boolean(defaultValue)} />
+                <TextInput icon="₩" label="기본 판매가" value={defaultPrice} onChange={(e) => setDefaultPrice(e.target.value)} type="number" readOnly={Boolean(defaultValue)} />
                 <TextInput icon="🔗" label="판매 페이지" value={purchaseLink} onChange={(e) => setPurchaseLink(e.target.value)} type="url" />
             </AdminPageSection>
             <AdminPageSection label="옵션 정보" collapsable>
                 <BooleanSelect label="상품옵션 사용" value={useOptions} trueLabel="사용" falseLabel="미사용" onChange={setUseOptions} />
                 <Collapsable isOpen={useOptions} initiallyCollapsed={useOptions}>
+                    <div style={{ height: 20 }} />
                     <div className={styles['options-phone-model-wrap']}>
                         <BooleanSelect label="휴대폰 기종 사용" trueLabel="사용" falseLabel="미사용" value={usePhoneModels} onChange={setUsePhoneModels} />
                         <Collapsable isOpen={usePhoneModels} initiallyCollapsed={usePhoneModels}>
                             <PhoneModelSearchConsole phoneModels={allPhoneModels} selected={availablePhoneModels} setSelected={setAvailablePhoneModels} setPPMO={setProductPhoneModelOption} ppmo={productPhoneModelOption} newCount={creationCount} setNewCount={setCreationCount} selectedPPMO={selectedPhoneModelOption} />
                             <ProductPhoneModelOptionList selected={selectedPhoneModelOption} setSelected={setSelectedPhoneModelOption} ppmo={productPhoneModelOption} setPPMO={setProductPhoneModelOption} />
                         </Collapsable>
+                        <div style={{ height: 20 }} />
                     </div>
-                    <div className={styles['options-option-info-wrap']}></div>
-                    <div className={styles['options-option-list-wrap']}></div>
+                    <TextInput label='옵션1 명칭' value={option1} onChange={(e) => setOption1(e.target.value)} />
+                    <TagInput label={`옵션1 값`} value={option1Values} onChange={setOption1Values} />
+                    <div style={{ height: 20 }} />
+                    <TextInput label='옵션2 명칭' value={option1} onChange={(e) => setOption1(e.target.value)} />
+                    <TagInput label={`옵션2 값`} value={option2Values} onChange={setOption2Values} />
+                    <div style={{ height: 20 }} />
+                    <TextInput label='옵션3 명칭' value={option1} onChange={(e) => setOption1(e.target.value)} />
+                    <TagInput label={`옵션3 값`} value={option3Values} onChange={setOption3Values} />
+                    <div style={{ height: 20 }} />
+                    <Button onClick={createOptions}>적용</Button>
                 </Collapsable>
             </AdminPageSection>
             <AdminPageSection label="이미지 정보" collapsable>
