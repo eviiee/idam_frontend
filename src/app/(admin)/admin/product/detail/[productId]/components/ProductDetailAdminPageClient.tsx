@@ -11,11 +11,12 @@ import Collapsable from '@/components/common/ui/wrapper/collapsable/Collapsable'
 import PhoneModelSearchConsole from './phoneModelSearch/PhoneModelSearchConsole'
 import styles from './productDetailPage.module.scss'
 import { getPhoneModels } from '@/services/common/getPhoneModels'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, ReactNode } from 'react'
 import Product, { NewProductJSONData, NewProductOptionJSONData, ProductOption, ProductPhoneModelOption, SimplePhoneModel } from '@/types/product'
 import ProductPhoneModelOptionList from './productPhoneModelOption/ProductPhoneModelOptionList'
 import { createProductAdmin } from '@/services/admin/products'
 import ParsePPMO from '../utils/newProductPhoneModelOptionsParser'
+import { toast } from 'react-toastify'
 
 interface Validation {
     productName?: string
@@ -31,6 +32,8 @@ export default function ProductDetailAdminPageClientWrapper({
     const [productName, setProductName] = useState<string>(defaultValue?.productName ?? "")
     const [productNameError, setProductNameError] = useState<string>("")
     const [productAlias, setProductAlias] = useState<string>(defaultValue?.productAlias ?? "")
+    const [defaultPurchasePrice, setDefaultPurchasePrice] = useState<string>(defaultValue ? String(defaultValue.minPurchasePrice) : "")
+    const [defaultPrice, setDefaultPrice] = useState<string>(defaultValue ? String(defaultValue.minPrice) : "")
     const [useOptions, setUseOptions] = useState<boolean>(defaultValue?.useOptions ?? false)
     const [purchaseLink, setPurchaseLink] = useState("")
 
@@ -54,7 +57,7 @@ export default function ProductDetailAdminPageClientWrapper({
     const [thumbnail, setThumbnail] = useState<File | null>(null)
     const [thumbnailHover, setThumbnailHover] = useState<File | null>(null)
     const [additionalImages, setAdditionalImages] = useState<File[]>([])
-    const [detailImage, setDetailImage] = useState("d")
+    const [detailImage, setDetailImage] = useState(defaultValue?.detailImage ?? "d")
 
     const [engravable, setEngravable] = useState<boolean>(defaultValue?.engravable ?? false)
     const [printable, setPrintable] = useState<boolean>(defaultValue?.printable ?? false)
@@ -64,29 +67,87 @@ export default function ProductDetailAdminPageClientWrapper({
 
     // 휴대폰 기종 목록 불러오기
     const updatePhoneModels = async () => {
-        const res = await getPhoneModels()
-        setAllPhoneModels(res)
+        const promise = getPhoneModels()
+        toast.promise(promise, {
+            pending: "휴대폰 기종 로딩중",
+            success: "기종 로딩 성공",
+            error: "기종 로딩 실패",
+        })
+        try {
+            const res = await promise
+            setAllPhoneModels(res)
+        } catch {
+        }
     }
 
     // 상품정보 검수
-    const validateProductInfo = () => {
+    const validateProductInfo = (): [boolean, ReactNode] => {
+        const nameIsValid = validateDefaultInfo()
+        if (!nameIsValid[0]) return nameIsValid
+        const optionIsValid = validateOptions()
+        if (!optionIsValid[0]) return optionIsValid
+        const thumbnailIsValid = validateImages()
+        if (!thumbnailIsValid[0]) return thumbnailIsValid
 
+        return [true, ""]
     }
 
     // 상품명 검수
-    const validateProductName = () => { !productName && setProductNameError("상품명을 입력해주세요"); return !productName }
+    const validateDefaultInfo = (): [boolean, ReactNode] => {
+        if (!productName) {
+            setProductNameError("상품명을 입력해주세요")
+            return [false, "상품명을 입력해주세요"]
+        } else if (!productAlias) {
+            return [false, "송장용 상품명을 입력해주세요"]
+        } else if (!defaultPurchasePrice) {
+            return [false, "입고가를 입력해주세요"]
+        } else if (!defaultPrice) {
+            return [false, "판매가를 입력해주세요"]
+        }
+        return [true, ""]
+    }
 
     // 옵션 검수
-    const validateOptions = () => { }
+    const validateOptions = (): [boolean, ReactNode] => {
+        if (useOptions && productOptions.length < 1) return [false, "옵션을 생성해주세요."]
+        const uniqueOptions: { [key: string]: boolean } = {}
+        for (let i = 0; i < productOptions.length; i++) {
+            const option = productOptions[i]
+            const combKey = `${option.phoneModel?.id} ${option.option1} ${option.option2} ${option.option3}`
+            if (uniqueOptions[combKey]) {
+                return [false, <div>옵션에 중복된 값이 있습니다.<br />{combKey}</div>]
+            } else {
+                uniqueOptions[combKey] = true
+            }
+            if (usePhoneModels && (!option.phoneModel)) return [false, "호환 기종은 필수입니다."]
+            if (option1 && (!option.option1)) return [false, "옵션 1의 값은 필수입니다."]
+            if (option2 && (!option.option2)) return [false, "옵션 2의 값은 필수입니다."]
+            if (option3 && (!option.option3)) return [false, "옵션 3의 값은 필수입니다."]
+            if (!option.inboundPrice) return [false, "입고가는 필수 입력 항목입니다."]
+            if (!option.price) return [false, "판매가는 필수 입력 항목입니다."]
+        }
+        return [true, ""]
+    }
 
     // 이미지 검수
-    const validateImages = () => {
-        // thumbnail && 
+    const validateImages = (): [boolean, ReactNode] => {
+        if (!thumbnail) return [false, "대표 이미지는 필수 항목입니다."]
+        return [true, ""]
     }
 
 
     // 상품 등록
-    const saveProduct = () => {
+    const saveProduct = async () => {
+
+        const [isValid, message] = validateProductInfo()
+        if (!isValid) {
+            toast(
+                message, {
+                type: "error",
+            }
+            )
+            return
+        }
 
         const formData = new FormData()
 
@@ -117,9 +178,15 @@ export default function ProductDetailAdminPageClientWrapper({
 
         formData.append("data", JSON.stringify(data))
 
-        createProductAdmin(formData).then(([success, data]) => {
-            success ? alert("등록 성공") : alert(data.error)
+        const promise = createProductAdmin(formData)
+        toast.promise(promise, {
+            pending: "상품 등록중",
+            success: "상품 등록 완료",
+            error: "에러 발생. 관리자에게 문의하세요"
         })
+        try {
+            await promise
+        } catch {}
     }
 
     return (
@@ -128,8 +195,8 @@ export default function ProductDetailAdminPageClientWrapper({
             <AdminPageSection label="상품정보" collapsable>
                 <TextInput label="상품명" value={productName} onChange={(e) => setProductName(e.target.value)} maxLength={50} placeholder="예) 이담 푸딩 2way1 5000mAh 도킹형 보조배터리" />
                 <TextInput label="상품명 (송장용)" value={productAlias} onChange={(e) => setProductAlias(e.target.value)} maxLength={20} placeholder="예) 이담푸딩" />
-                <TextInput icon="₩" label="기본 입고가" type="number" readOnly={Boolean(defaultValue)} />
-                <TextInput icon="₩" label="기본 판매가" type="number" readOnly={Boolean(defaultValue)} />
+                <TextInput icon="₩" label="기본 입고가" value={defaultPurchasePrice} onChange={(e)=>setDefaultPurchasePrice(e.target.value)} type="number" readOnly={Boolean(defaultValue)} />
+                <TextInput icon="₩" label="기본 판매가" value={defaultPrice} onChange={(e)=>setDefaultPrice(e.target.value)} type="number" readOnly={Boolean(defaultValue)} />
                 <TextInput icon="🔗" label="판매 페이지" value={purchaseLink} onChange={(e) => setPurchaseLink(e.target.value)} type="url" />
             </AdminPageSection>
             <AdminPageSection label="옵션 정보" collapsable>

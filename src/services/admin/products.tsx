@@ -10,9 +10,9 @@ export async function createProductAdmin(data: FormData) {
                 "Content-Type": "multipart/form-data"
             }
         })
-        return [true, res.data]
+        return res.data
     } catch (e) {
-        return [false, {error:"에러 발생. 관리자에게 문의하세요"}]
+        return Promise.reject()
     }
 }
 

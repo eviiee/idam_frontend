@@ -104,7 +104,7 @@ export default function PhoneModelSearchConsole({
                 <button onClick={handleSearch}>🔎</button>
             </div>
             <div className={styles['phone-model-search-result']}>
-                {filtered.map(m => {
+                {filtered.length ? filtered.map(m => {
                     const used = isUsed(m)
                     return (
                         <motion.button
@@ -118,7 +118,7 @@ export default function PhoneModelSearchConsole({
                             <span className={styles['model-name']}>{m.displayName}</span>
                         </motion.button>
                     )
-                })}
+                }) : <div style={{textAlign:'center',width:"100%",color:"#999"}}>검색된 기종이 없습니다</div>}
             </div>
         </div>
     )

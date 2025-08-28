@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import "../../globals.scss";
 import "./layout.scss";
 import ConsoleSideBar from "@/components/layout/ConsoleSideBar";
-import AdminPage from "@/components/auth/AdminPage";
+import "react-toastify/dist/ReactToastify.css"
+import ToastProvider from "@/components/layout/ToastProvider";
 
 export const metadata: Metadata = {
   title: "이담리테일 관리자",
@@ -17,18 +18,20 @@ export default function AdminLayout({
   return (
     <html lang="ko">
       <body>
-          {/* <AdminPage> */}
-            <div id="root">
-              <div id="app">
-                <div className="wrap">
-                  <ConsoleSideBar />
-                  <div className="content">
-                    {children}
-                  </div>
+        {/* <AdminPage> */}
+        <div id="root">
+          <div id="app">
+            <ToastProvider>
+              <div className="wrap">
+                <ConsoleSideBar />
+                <div className="content">
+                  {children}
                 </div>
               </div>
-            </div>
-          {/* </AdminPage> */}
+            </ToastProvider>
+          </div>
+        </div>
+        {/* </AdminPage> */}
       </body>
     </html>
   );
