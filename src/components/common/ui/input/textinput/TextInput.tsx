@@ -1,15 +1,14 @@
 'use client'
 
-import React, { ChangeEventHandler, InputHTMLAttributes, MouseEventHandler, ReactNode, RefObject, useEffect, useRef, useState } from "react";
+import React, { ChangeEventHandler, FormEventHandler, InputEventHandler, InputHTMLAttributes, MouseEventHandler, ReactNode, RefObject, useEffect, useRef, useState } from "react";
 import styles from "./textInput.module.scss";
 import clsx from "clsx";
 
 interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
   ref?: RefObject<HTMLInputElement | null>
-  label?: string;
-  error?: string;
-  icon?: ReactNode;       // 입력창 왼쪽 아이콘
-  onChange?: ChangeEventHandler<HTMLInputElement>
+  label?: string
+  error?: string
+  icon?: ReactNode
 }
 
 const TextInput: React.FC<TextInputProps> = ({
@@ -20,6 +19,7 @@ const TextInput: React.FC<TextInputProps> = ({
   maxLength,
   onChange,
   value: controlledValue,
+  width,
   ref,
   ...props
 }) => {
@@ -31,8 +31,7 @@ const TextInput: React.FC<TextInputProps> = ({
   const value = (isControlled ? controlledValue : uncontrolledValue).toString()
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    const v = e.target.value
-    if ((type == "number" || type == "tel") && !Number(v)) return
+    let v = e.target.value
     if (maxLength && v.length > maxLength) return
     isControlled ? onChange?.(e) : setUncontrolledValue(v)
   }
@@ -51,7 +50,8 @@ const TextInput: React.FC<TextInputProps> = ({
   return (
     <div className={styles.wrapper}>
       {label && <span className={styles.label}>{label}</span>}
-      <div className={styles.errorAligner}>
+      <div className={clsx(styles.errorAligner, !width && styles['full-width'])}
+        style={width ? { width: width } : undefined}>
         <div
           className={clsx(styles.inputWrapper, isFocused && styles.focused, error && styles.errorWrapper)}
         >
@@ -66,7 +66,7 @@ const TextInput: React.FC<TextInputProps> = ({
             onChange={handleChange}
             {...props}
           />
-          <div className={clsx(styles['close-button'], (!value.length || !isFocused) && styles['is-hidden'])} onMouseDown={handleClearButtonClick}>❌</div>
+          {!props.readOnly && <div className={clsx(styles['close-button'], (!value.length || !isFocused) && styles['is-hidden'])} onMouseDown={handleClearButtonClick}>❌</div>}
           {
             maxLength &&
             <div className={clsx(styles['max-length'])}>

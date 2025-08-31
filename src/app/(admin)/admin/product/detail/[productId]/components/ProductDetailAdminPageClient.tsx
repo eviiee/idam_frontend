@@ -204,10 +204,11 @@ export default function ProductDetailAdminPageClientWrapper({
         <div className={styles['product-detail-page-admin']}>
             {!defaultValue && <AdminPageHeader title="신규상품 등록" />}
             <AdminPageSection label="상품정보" collapsable>
-                <TextInput label="상품명" value={productName} onChange={(e) => setProductName(e.target.value)} maxLength={50} placeholder="예) 이담 푸딩 2way1 5000mAh 도킹형 보조배터리" />
-                <TextInput label="상품명 (송장용)" value={productAlias} onChange={(e) => setProductAlias(e.target.value)} maxLength={20} placeholder="예) 이담푸딩" />
-                <TextInput icon="₩" label="기본 입고가" value={defaultPurchasePrice} onChange={(e) => setDefaultPurchasePrice(e.target.value)} type="number" readOnly={Boolean(defaultValue)} />
-                <TextInput icon="₩" label="기본 판매가" value={defaultPrice} onChange={(e) => setDefaultPrice(e.target.value)} type="number" readOnly={Boolean(defaultValue)} />
+                <TextInput label="상품명" value={productName} onChange={(e) => setProductName(e.target.value)} maxLength={50} placeholder="예) 이담 푸딩 2way1 5000mAh 도킹형 보조배터리" width={900} />
+                <TextInput label="상품명 (송장용)" value={productAlias} onChange={(e) => setProductAlias(e.target.value)} maxLength={20} placeholder="예) 이담푸딩" width={600} />
+                <TextInput icon="₩" label="기본 입고가" value={defaultPurchasePrice} onChange={(e) => setDefaultPurchasePrice(e.target.value)} type="number" readOnly={Boolean(defaultValue)} width={300} />
+                    <div>{defaultPurchasePrice}</div>
+                <TextInput icon="₩" label="기본 판매가" value={defaultPrice} onChange={(e) => setDefaultPrice(e.target.value)} type="number" readOnly={Boolean(defaultValue)} width={300} />
                 <TextInput icon="🔗" label="판매 페이지" value={purchaseLink} onChange={(e) => setPurchaseLink(e.target.value)} type="url" />
             </AdminPageSection>
             <AdminPageSection label="옵션 정보" collapsable>

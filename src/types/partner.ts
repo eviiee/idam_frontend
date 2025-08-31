@@ -32,11 +32,11 @@ export interface Channel {
 
 export interface Company {
     id? : number
-    name : string
-    address : string
-    email : string
-    contact : string
-    bizRegNum : string
+    name? : string
+    address? : string
+    email? : string
+    contact? : string
+    bizRegNum? : string
 }
 
 export interface Courier {

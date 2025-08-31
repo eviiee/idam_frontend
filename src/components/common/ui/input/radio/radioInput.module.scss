@@ -1,53 +1,45 @@
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1rem;
-}
-
-.options {
-  display: flex;
-  gap: 1rem;
-}
-
-.option {
+.radio-wrap {
   display: flex;
   align-items: center;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  position: relative;
-  background-color: #fff;
+  margin-bottom: 20px;
 
-  &:hover {
-    border-color: #4f46e5;
+  >.radio__label {
+    color: #333;
+    width: 230px;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1;
   }
-}
 
-.selected {
-  border-color: #4f46e5;
-  background-color: rgba(79, 70, 229, 0.1);
-}
+  >.radio-options-wrap {
+    flex-grow: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
 
-.input {
-  display: none;
-}
+    >.radio__option {
 
-.icon {
-  margin-right: 0.5rem;
-  display: flex;
-  align-items: center;
-  color: #555;
-}
+      min-width: 80px;
+      line-height: 1;
+      color: #aaa;
 
-.label {
-  font-size: 1rem;
-  color: #333;
-}
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      padding: 0.8rem 1.2rem;
 
-.errorMessage {
-  color: #ef4444;
-  font-size: 0.75rem;
-  margin-top: 0.25rem;
+      border-radius: 8px;
+
+      cursor: pointer;
+
+      &:not(.is-selected):hover {
+        background-color: var(--background-light);
+      }
+
+      &.is-selected {
+        color: white;
+        background-color: var(--blue);
+      }
+    }
+  }
 }

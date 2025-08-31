@@ -1,0 +1,127 @@
+$width: 350px;
+
+.select-wrap {
+
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+
+    >.select__label {
+        color: #333;
+        width: 230px;
+        font-size: 1rem;
+        font-weight: 500;
+        line-height: 1;
+    }
+
+    >.select__input-wrap {
+
+        width: $width;
+        position: relative;
+
+        >.select__input-toggle {
+            padding: 0.8rem 1.2rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+
+            display: flex;
+            justify-content: space-between;
+
+            color: #555;
+
+            cursor: pointer;
+
+            >span {
+                pointer-events: none;
+                user-select: none;
+                -webkit-user-select: none;
+
+                &:last-child {
+                    transform: scale(1.7);
+                    color: #ccc;
+                }
+            }
+        }
+
+        >.select__dropdown {
+
+            width: 100%;
+
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+
+            position: absolute;
+            z-index: 10;
+            top: calc(100% + 10px);
+            background-color: var(--background);
+
+            box-shadow: 0 0 10px rgba($color: #000000, $alpha: 0.05);
+
+            display: flex;
+            flex-direction: column;
+
+            >.select__dropdown__search {
+                padding: 18px 30px;
+                border: 0;
+                outline: 0;
+                border-bottom: 1px solid #ddd;
+
+                font-size: 1rem;
+                font-weight: 400;
+                line-height: 1;
+            }
+
+            >.select__dropdown__list {
+
+                overflow: auto;
+                padding: 8px 0;
+
+                >p {
+                    padding: 30px;
+                    text-align: center;
+                    color: #aaa;
+                    font-weight: 400;
+                }
+            }
+        }
+    }
+}
+
+
+
+.select__option {
+
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+
+    color: #333;
+
+    cursor: pointer;
+
+    >.select__option__highlighter {
+
+        padding: 16px 20px;
+        border-radius: 14px;
+
+        width: 100%;
+
+        >.select__option__label {
+            font-size: 1rem;
+            line-height: 1;
+        }
+    }
+
+    &.is-selected {
+        // background-color: rgb(213, 233, 255);
+        color: var(--blue);
+        font-weight: 600;
+    }
+
+    &:hover {
+        .select__option__highlighter {
+            background-color: #f2f3f3;
+        }
+    }
+}

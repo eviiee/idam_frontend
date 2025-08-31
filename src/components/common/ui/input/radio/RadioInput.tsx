@@ -1,53 +1,44 @@
-import React, { ReactNode } from "react";
-import styles from "./radioInput.module.scss";
+import { ReactNode } from 'react';
+import styles from './radioInput.module.scss'
+import clsx from 'clsx';
 
-interface RadioOption {
-  label: string;
-  value: string | number;
+interface RadioOption<T extends string | number> {
   icon?: ReactNode;
+  label: string;
+  value: T;
 }
 
-interface RadioInputProps {
-  name: string;
-  options: RadioOption[];
-  value: string | number;
-  onChange: (value: string | number) => void;
-  error?: string;
+interface RadioInputProps<T extends string | number> {
+  label?: string;
+  value: T;
+  onChange: (v: T) => void;
+  options: RadioOption<T>[]
 }
 
-const RadioInput: React.FC<RadioInputProps> = ({
-  name,
-  options,
+export default function RadioInput<T extends string | number>({
+  label,
   value,
   onChange,
-  error,
-}) => {
-  return (
-    <div className={styles.wrapper}>
-      <div className={styles.options}>
-        {options.map((option) => (
-          <label
-            key={option.value}
-            className={`${styles.option} ${
-              value === option.value ? styles.selected : ""
-            }`}
-          >
-            <input
-              type="radio"
-              name={name}
-              value={option.value}
-              checked={value === option.value}
-              onChange={() => onChange(option.value)}
-              className={styles.input}
-            />
-            {option.icon && <span className={styles.icon}>{option.icon}</span>}
-            <span className={styles.label}>{option.label}</span>
-          </label>
-        ))}
-      </div>
-      {error && <span className={styles.errorMessage}>{error}</span>}
-    </div>
-  );
-};
+  options,
+}: RadioInputProps<T>) {
+  const radioButtons = options.map(v => <RadioButton option={v} onClick={onChange} selected={value === v.value} key={v.value} />)
 
-export default RadioInput;
+  return (
+    <div className={styles['radio-wrap']}>
+      {label && <span className={styles['radio__label']}>{label}</span>}
+      <div className={styles['radio-options-wrap']}>{radioButtons}</div>
+    </div>
+  )
+}
+
+function RadioButton<T extends string | number>({ option, onClick, selected }: { option: RadioOption<T>, onClick: (v: T) => void, selected: boolean }) {
+  return (
+    <div
+      onClick={() => onClick(option.value)}
+      className={clsx(styles['radio__option'], selected && styles['is-selected'])}
+    >
+      {option.icon && <div className={styles['radio__option--icon']}>{option.icon}</div>}
+      <span className={styles['radio__option--label']}>{option.label}</span>
+    </div>
+  )
+}

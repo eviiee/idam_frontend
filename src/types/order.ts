@@ -1,21 +1,41 @@
 import { Channel, Company, Courier } from "./partner"
+import { PrintInfo } from "./print"
 
 export type OrderState = '결제대기' | '결제완료' | '배송준비중' | '처리완료'
 export type PurchaseType = '신용거래' | '무통장'
 export type PurchaseState = '입금 대기' | '미수금' | '결제완료'
 export type ShipmentType = '택배' | '퀵/화물' | '직배송' | '방문수령' | '배송없음'
 
+export interface OrderedItem {
+    id?: number;
+    productOption:number;
+    quantity:number;
+    printInfo:PrintInfo
+
+    optionName: string;
+}
+
 
 export interface Order {
     id: number
-    orderedAt: string
-    orderState: OrderState
     channel: Channel
+    channelOrderId?: string
+    orderState: OrderState
+    seller?: "이담" | "상플"
     buyer?: Company
-    shipment: Shipment
-    deadline?: string | null
+    buyerName?: string
     purchaseType: PurchaseType
     purchaseState: PurchaseState
+    orderedAt: string
+    shipment: Shipment
+    deadline?: string | null
+
+    orderedItems: OrderedItem[]
+    needPrinting: boolean
+    printState: "시안 작업중"|"인쇄 대기"|"인쇄 완료"|null
+    needPackaging: boolean
+    packagingState: "포장 대기"|"포장 완료"|null
+    memo:string
 }
 
 export interface Shipment {

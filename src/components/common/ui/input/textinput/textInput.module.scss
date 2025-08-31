@@ -15,8 +15,9 @@
 }
 
 .errorAligner {
-    flex-grow: 1;
-
+    &.full-width {
+        flex-grow: 1;
+    }
 }
 
 .inputWrapper {
