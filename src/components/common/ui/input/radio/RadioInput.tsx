@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import styles from './radioInput.module.scss'
 import clsx from 'clsx';
+import InputLabel from '../inputLabel/InputLabel';
 
 interface RadioOption<T extends string | number> {
   icon?: ReactNode;
@@ -25,7 +26,7 @@ export default function RadioInput<T extends string | number>({
 
   return (
     <div className={styles['radio-wrap']}>
-      {label && <span className={styles['radio__label']}>{label}</span>}
+      {label && <InputLabel label={label} />}
       <div className={styles['radio-options-wrap']}>{radioButtons}</div>
     </div>
   )

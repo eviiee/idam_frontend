@@ -3,6 +3,7 @@
 import React, { ChangeEventHandler, FormEventHandler, InputEventHandler, InputHTMLAttributes, MouseEventHandler, ReactNode, RefObject, useEffect, useRef, useState } from "react";
 import styles from "./textInput.module.scss";
 import clsx from "clsx";
+import InputLabel from "../inputLabel/InputLabel";
 
 interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
   ref?: RefObject<HTMLInputElement | null>
@@ -49,7 +50,7 @@ const TextInput: React.FC<TextInputProps> = ({
 
   return (
     <div className={styles.wrapper}>
-      {label && <span className={styles.label}>{label}</span>}
+      {label && <InputLabel label={label} />}
       <div className={clsx(styles.errorAligner, !width && styles['full-width'])}
         style={width ? { width: width } : undefined}>
         <div

@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import styles from './booleanSelect.module.scss'
+import InputLabel from '../inputLabel/InputLabel'
 
 interface BooleanSelectProps {
     trueLabel: string
@@ -20,7 +21,7 @@ export default function BooleanSelect({
 } : BooleanSelectProps){
     return (
         <div className={clsx(styles['boolean-select-wrap'],className)}>
-            {label && <span>{label}</span>}
+            {label && <InputLabel label={label} />}
             <div className={styles['boolean-select']}>
                 <div className={clsx(styles.false, !value && styles['is-selected'])} onClick={()=>onChange(false)}>{falseLabel}</div>
                 <div className={clsx(styles.true, value && styles['is-selected'])} onClick={()=>onChange(true)}>{trueLabel}</div>

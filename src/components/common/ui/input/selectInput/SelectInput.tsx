@@ -5,6 +5,7 @@ import { CSSProperties, JSX, KeyboardEventHandler, ReactNode, useEffect, useRef,
 import styles from './selectInput.module.scss'
 import { List, RowComponentProps } from 'react-window';
 import { AnimatePresence, motion } from 'framer-motion';
+import InputLabel from '../inputLabel/InputLabel';
 
 interface SelectInputOption<T extends string | number> {
     icon?: ReactNode
@@ -118,7 +119,7 @@ export default function SelectInput<T extends string | number>(
         <div
             className={styles['select-wrap']}
         >
-            {label && <span className={styles['select__label']}>{label}</span>}
+            {label && <InputLabel label={label} />}
             <div className={styles['select__input-wrap']}>
                 <div
                     className={styles['select__input-toggle']}

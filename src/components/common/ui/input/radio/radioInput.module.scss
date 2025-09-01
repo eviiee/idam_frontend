@@ -12,10 +12,14 @@
   }
 
   >.radio-options-wrap {
-    flex-grow: 1;
+    // flex-grow: 1;
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
+
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    padding: 4px;
 
     >.radio__option {
 
@@ -33,7 +37,7 @@
       cursor: pointer;
 
       &:not(.is-selected):hover {
-        background-color: var(--background-light);
+        background-color: #eee;
       }
 
       &.is-selected {

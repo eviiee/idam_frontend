@@ -2,8 +2,8 @@ import { Channel, Company, Courier } from "./partner"
 import { PrintInfo } from "./print"
 
 export type OrderState = '결제대기' | '결제완료' | '배송준비중' | '처리완료'
-export type PurchaseType = '신용거래' | '무통장'
-export type PurchaseState = '입금 대기' | '미수금' | '결제완료'
+export type PurchaseType = '신용거래' | '무통장 입금' | '현금결제' | '카드결제'
+export type PurchaseState = "결제대기"|"결제완료"|"결제취소"
 export type ShipmentType = '택배' | '퀵/화물' | '직배송' | '방문수령' | '배송없음'
 
 export interface OrderedItem {
@@ -22,7 +22,7 @@ export interface Order {
     channelOrderId?: string
     orderState: OrderState
     seller?: "이담" | "상플"
-    buyer?: Company
+    buyer?: Company | null
     buyerName?: string
     purchaseType: PurchaseType
     purchaseState: PurchaseState
@@ -42,15 +42,17 @@ export interface Shipment {
     id: number
 
     shipmentType: ShipmentType
-    shipper: Company
+    shipper: Company | null
     shipperContact: string
     shipperContactAlt: string
     shipperAddress: string
+    shipperAddressDetail: string
 
     receiverName: string
     receiverContact: string
     receiverContactAlt: string
     receiverAddress: string
+    receiverAddressDetail: string
     receiverMessage: string
 
     shipmentFee: number
