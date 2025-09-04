@@ -43,6 +43,7 @@ export interface Shipment {
 
     shipmentType: ShipmentType
     shipper: Company | null
+    shipperName: string
     shipperContact: string
     shipperContactAlt: string
     shipperAddress: string

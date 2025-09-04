@@ -30,7 +30,7 @@ export default function OrderDefaultInfoForm({
                 control={control}
                 render={({ field }) => (
                     <RadioInput
-                        label='판매자'
+                        label='판매자*'
                         options={[{ label: "이담", value: "이담" }, { label: "상플", value: "상플" }]}
                         value={field.value!}
                         onChange={field.onChange}
@@ -42,7 +42,7 @@ export default function OrderDefaultInfoForm({
                 control={control}
                 render={({ field }) => (
                     <SelectInput
-                        label='판매채널'
+                        label='판매채널*'
                         options={channels.map(c => ({ label: c.name, value: c.id }))}
                         value={field.value?.id ?? null}
                         onChange={(id) => {
@@ -72,7 +72,7 @@ export default function OrderDefaultInfoForm({
                 control={control}
                 render={({ field }) => (
                     <RadioInput
-                        label='결제 수단'
+                        label='결제 수단*'
                         options={[
                             { label: "신용거래", value: "신용거래" },
                             { label: "무통장 입금", value: "무통장 입금" },
@@ -81,13 +81,13 @@ export default function OrderDefaultInfoForm({
                         ]} value={field.value} onChange={field.onChange} />
                 )}
             />
-            <Collapsable isOpen={isDeposit}>
+            <Collapsable isOpen={isDeposit} initiallyCollapsed>
                 <Controller
                     name='purchaseState'
                     control={control}
                     render={({ field }) => (
                         <RadioInput
-                            label='결제 상태'
+                            label='결제 상태*'
                             options={[
                                 { label: "결제대기", value: "결제대기" },
                                 { label: "결제완료", value: "결제완료" },

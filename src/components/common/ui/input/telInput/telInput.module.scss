@@ -1,0 +1,42 @@
+.phone-input-wrap {
+    display: flex;
+    align-items: center;
+
+    margin-bottom: 20px;
+
+    >.phone-input__input {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        align-items: center;
+        padding: 0 .5rem;
+        transition: all .2s;
+        display: flex;
+
+        &.is-focused {
+            border: 1px solid var(--blue);
+        }
+
+        >input {
+            border: 0;
+            outline: 0;
+
+            color: var(--foreground-hover);
+            background: none;
+            border: none;
+            outline: none;
+            flex: 1;
+            padding: .8rem .4rem;
+            font-size: 1rem;
+            line-height: 1;
+
+            width: 85px;
+
+            text-align: center;
+        }
+
+        > span {
+            color: #ccc;
+        }
+    }
+}

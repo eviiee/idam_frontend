@@ -4,6 +4,7 @@ import "./layout.scss";
 import ConsoleSideBar from "@/components/layout/ConsoleSideBar";
 import "react-toastify/dist/ReactToastify.css"
 import ToastProvider from "@/components/layout/ToastProvider";
+import { ModalProvider } from "@/components/layout/modal/context";
 
 export const metadata: Metadata = {
   title: "이담리테일 관리자",
@@ -22,12 +23,14 @@ export default function AdminLayout({
         <div id="root">
           <div id="app">
             <ToastProvider>
-              <div className="wrap">
-                <ConsoleSideBar />
-                <div className="content">
-                  {children}
+              <ModalProvider>
+                <div className="wrap">
+                  <ConsoleSideBar />
+                  <div className="content scroller">
+                    {children}
+                  </div>
                 </div>
-              </div>
+              </ModalProvider>
             </ToastProvider>
           </div>
         </div>
