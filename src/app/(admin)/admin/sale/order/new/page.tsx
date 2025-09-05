@@ -8,14 +8,19 @@ import RadioInput from '@/components/common/ui/input/radio/RadioInput'
 import SelectInput from '@/components/common/ui/input/selectInput/SelectInput'
 import { Channel, Company } from '@/types/partner'
 import TextInput from '@/components/common/ui/input/textinput/TextInput'
-import { Order, PurchaseType } from '@/types/order'
+import { Order, OrderState, PurchaseType } from '@/types/order'
 import { Controller, useForm, useWatch } from 'react-hook-form'
 import Collapsable from '@/components/common/ui/wrapper/collapsable/Collapsable'
 import OrderDefaultInfoForm from './components/DefaultInfoForm'
 import AddressInput from '@/components/common/ui/input/addressInput/AddressInput'
 import { PhoneInput } from '@/components/common/ui/input/telInput/TelInput'
+import Tag from '@/components/common/ui/tag/Tag'
+import Button from '@/components/common/ui/button/Button'
+import { useModal } from '@/components/layout/modal/context'
 
 export default function NewOrderAdminPage() {
+
+    const [currentTab, setCurrentTab] = useState<OrderState | null>(null)
 
     const [channels, setChannels] = useState<Channel[]>(Array.from({ length: 500 }, (_, i) => ({
         id: i,
@@ -45,6 +50,7 @@ export default function NewOrderAdminPage() {
 
     const { setValue, register, handleSubmit, control, watch, formState: { errors } } = useForm<Order>({
         defaultValues: {
+            id: null,
             seller: "이담",
             buyer: null,
             buyerName: "",
@@ -73,6 +79,9 @@ export default function NewOrderAdminPage() {
         }
     })
 
+    const isNew = watch("id") === null
+    const id = !isNew ? watch("id") : "신규 주문"
+    const orderedAt = isNew ? (new Date()).toDateString() : watch("orderedAt")
     const buyer = watch("buyer")
     const seller = watch("seller")
     const isDeposit = watch("purchaseType") === '무통장 입금'
@@ -91,118 +100,181 @@ export default function NewOrderAdminPage() {
         else setValue("purchaseState", "결제완료")
     }, [isDeposit])
 
+    const { open, close, confirm } = useModal()
+
+    const openCancelModal = () => {
+        open({
+            title: "취소",
+            size: "lg",
+            content: <textarea id="return-memo" />,
+        })
+    }
+
+    const openReturnModal = () => {
+        open({
+            title: "반품",
+            size: "lg",
+            content: <textarea id="return-memo" />,
+        })
+    }
+
     return (
-        <div className={styles['new-order-page']}>
-            <AdminPageHeader title='주문서 작성' />
-            <OrderDefaultInfoForm control={control} companies={companies} channels={channels} isDeposit={isDeposit} />
-            <AdminPageSection grid columns={2} columnGap={30}>
-                <Controller
-                    name='shipment.shipperName'
-                    control={control}
-                    render={({ field }) => (
-                        <TextInput
-                            width={280}
-                            label='발송인 이름'
-                            value={field.value}
-                            onChange={field.onChange}
-                        />
-                    )}
-                />
-                <Controller
-                    name='shipment'
-                    control={control}
-                    render={({ field }) => (
-                        <AddressInput
-                            label='발송인 주소*'
-                            address={field.value.shipperAddress}
-                            detailAddress={field.value.shipperAddressDetail}
-                            onAddressChange={(v) => field.onChange({ ...field.value, shipperAddress: v, shipperAddressDetail: "" })}
-                            onAddressDetailChange={(v) => field.onChange({ ...field.value, shipperAddressDetail: v })}
-                        />
-                    )}
-                />
-                <Controller
-                    name='shipment.shipperContact'
-                    control={control}
-                    render={({ field }) => <PhoneInput label='발송인 연락처*' value={field.value} onChange={field.onChange} />}
-                />
-                <Controller
-                    name='shipment.shipperContactAlt'
-                    control={control}
-                    render={({ field }) => <PhoneInput label='발송인 예비 연락처' value={field.value} onChange={field.onChange} />}
-                />
-
-            </AdminPageSection>
-            <AdminPageSection>
-                <Controller
-                    name='shipment.receiverName'
-                    control={control}
-                    render={({ field }) => (
-                        <TextInput
-                            width={280}
-                            label='수취인 이름'
-                            value={field.value}
-                            onChange={field.onChange}
-                        />
-                    )}
-                />
-                <Controller
-                    name='shipment'
-                    control={control}
-                    render={({ field }) => (
-                        <AddressInput
-                            label='수취인 주소*'
-                            address={field.value.receiverAddress}
-                            detailAddress={field.value.receiverAddressDetail}
-                            onAddressChange={(v) => field.onChange({ ...field.value, receiverAddress: v, receiverAddressDetail: "" })}
-                            onAddressDetailChange={(v) => field.onChange({ ...field.value, receiverAddressDetail: v })}
-                        />
-                    )}
-                />
-                <Controller
-                    name='shipment.receiverContact'
-                    control={control}
-                    render={({ field }) => <PhoneInput label='수취인 연락처*' value={field.value} onChange={field.onChange} />}
-                />
-                <Controller
-                    name='shipment.receiverContactAlt'
-                    control={control}
-                    render={({ field }) => <PhoneInput label='수취인 예비 연락처' value={field.value} onChange={field.onChange} />}
-                />
-                <Controller
-                    name='shipment.receiverMessage'
-                    control={control}
-                    render={({ field }) => (
-                        <TextInput
-                            label='배송메시지'
-                            value={field.value}
-                            onChange={field.onChange}
-                        />
-                    )}
-                />
-
-            </AdminPageSection>
-            <AdminPageSection>
-                <Controller
-                    name='shipment.shipmentType'
-                    control={control}
-                    render={({ field }) => (
-                        <RadioInput
-                            label='배송 타입'
-                            options={[{ label: "택배", value: "택배" }, { label: "퀵/화물", value: "퀵/화물" }, { label: "직배송", value: "직배송" }, { label: "방문수령", value: "방문수령" }, { label: "배송없음", value: "배송없음" }]}
-                            value={field.value}
-                            onChange={field.onChange}
-                        />
-                    )}
-                />
-                <Collapsable isOpen={isPaidShipment}>
-                    <Controller
-                        name='shipment.shipmentFee'
-                        control={control}
-                        render={({ field }) => <TextInput label='배송비' icon="₩" width={120} type='tel' value={field.value} onChange={field.onChange} />}
+        <div className={styles['order-detail-page']}>
+            <section className={styles['order-detail-page__header']}>
+                <button className={styles['order-detail-page__header__back-button']}>⬅</button>
+                <div className={styles['order-detail-page__header__title-section']}>
+                    <div className={styles['order-detail-page__header__title']}>
+                        <h1 className={styles['order-detail-page__header__title']}>{id}</h1>
+                        <div className={styles['order-detail-page__header__title__tags']}>
+                            <Tag>결제대기</Tag>
+                            <Tag type='blue'>결제완료</Tag>
+                            <Tag type="green">배송중</Tag>
+                            <Tag type='yellow'>반품됨</Tag>
+                            <Tag type='red'>취소됨</Tag>
+                        </div>
+                    </div>
+                    <div className={styles['order-detail-page__header__title__datetime']}>{orderedAt}</div>
+                </div>
+                <div className={styles['order-detail-page__header__buttons']}>
+                    {
+                        isNew ?
+                            <Button color='blue' onClick={() => { }}>발주확정</Button> :
+                            <>
+                                <Button onClick={() => { }}>📜</Button>
+                                <Button onClick={() => { }}>🖨️</Button>
+                                <Button onClick={() => { }}>출고수량 변경</Button>
+                                <Button onClick={openCancelModal}>취소</Button>
+                                <Button onClick={openReturnModal}>반품</Button>
+                            </>
+                    }
+                </div>
+            </section>
+            <div className={styles['order-detail-page__content']}>
+                <div className={styles['left']}>
+                    <RadioInput
+                        options={[
+                            { label: "전체", value: null },
+                            { label: "배송", value: "처리완료" },
+                            { label: "취소", value: "취소" },
+                            { label: "반품", value: "반품" },
+                        ]}
+                        value={currentTab}
+                        onChange={setCurrentTab}
                     />
-                </Collapsable>
-            </AdminPageSection>
+                    <OrderDefaultInfoForm control={control} companies={companies} channels={channels} isDeposit={isDeposit} />
+                    <AdminPageSection>
+                        <Controller
+                            name='shipment.shipperName'
+                            control={control}
+                            render={({ field }) => (
+                                <TextInput
+                                    width={280}
+                                    label='발송인 이름'
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                />
+                            )}
+                        />
+                        <Controller
+                            name='shipment'
+                            control={control}
+                            render={({ field }) => (
+                                <AddressInput
+                                    label='발송인 주소*'
+                                    address={field.value.shipperAddress}
+                                    detailAddress={field.value.shipperAddressDetail}
+                                    onAddressChange={(v) => field.onChange({ ...field.value, shipperAddress: v, shipperAddressDetail: "" })}
+                                    onAddressDetailChange={(v) => field.onChange({ ...field.value, shipperAddressDetail: v })}
+                                />
+                            )}
+                        />
+                        <Controller
+                            name='shipment.shipperContact'
+                            control={control}
+                            render={({ field }) => <PhoneInput label='발송인 연락처*' value={field.value} onChange={field.onChange} />}
+                        />
+                        <Controller
+                            name='shipment.shipperContactAlt'
+                            control={control}
+                            render={({ field }) => <PhoneInput label='발송인 예비 연락처' value={field.value} onChange={field.onChange} />}
+                        />
+
+                    </AdminPageSection>
+                    <AdminPageSection>
+                        <Controller
+                            name='shipment.receiverName'
+                            control={control}
+                            render={({ field }) => (
+                                <TextInput
+                                    width={280}
+                                    label='수취인 이름'
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                />
+                            )}
+                        />
+                        <Controller
+                            name='shipment'
+                            control={control}
+                            render={({ field }) => (
+                                <AddressInput
+                                    label='수취인 주소*'
+                                    address={field.value.receiverAddress}
+                                    detailAddress={field.value.receiverAddressDetail}
+                                    onAddressChange={(v) => field.onChange({ ...field.value, receiverAddress: v, receiverAddressDetail: "" })}
+                                    onAddressDetailChange={(v) => field.onChange({ ...field.value, receiverAddressDetail: v })}
+                                />
+                            )}
+                        />
+                        <Controller
+                            name='shipment.receiverContact'
+                            control={control}
+                            render={({ field }) => <PhoneInput label='수취인 연락처*' value={field.value} onChange={field.onChange} />}
+                        />
+                        <Controller
+                            name='shipment.receiverContactAlt'
+                            control={control}
+                            render={({ field }) => <PhoneInput label='수취인 예비 연락처' value={field.value} onChange={field.onChange} />}
+                        />
+                        <Controller
+                            name='shipment.receiverMessage'
+                            control={control}
+                            render={({ field }) => (
+                                <TextInput
+                                    label='배송메시지'
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                />
+                            )}
+                        />
+
+                    </AdminPageSection>
+                    <AdminPageSection>
+                        <Controller
+                            name='shipment.shipmentType'
+                            control={control}
+                            render={({ field }) => (
+                                <RadioInput
+                                    label='배송 타입'
+                                    options={[{ label: "택배", value: "택배" }, { label: "퀵/화물", value: "퀵/화물" }, { label: "직배송", value: "직배송" }, { label: "방문수령", value: "방문수령" }, { label: "배송없음", value: "배송없음" }]}
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                />
+                            )}
+                        />
+                        <Collapsable isOpen={isPaidShipment}>
+                            <Controller
+                                name='shipment.shipmentFee'
+                                control={control}
+                                render={({ field }) => <TextInput label='배송비' icon="₩" width={120} type='tel' value={field.value} onChange={field.onChange} />}
+                            />
+                        </Collapsable>
+                    </AdminPageSection>
+                </div>
+                <div className={styles['right']}>
+                    <AdminPageSection></AdminPageSection>
+                </div>
+            </div>
         </div>
     )
 }

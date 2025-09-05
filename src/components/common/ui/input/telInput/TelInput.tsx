@@ -47,15 +47,21 @@ function getPrefixLength(prefix: string) {
 
 export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
     ({ value, onChange, className, label }, ref) => {
-        const [part1, setPart1] = useState("");
-        const [part2, setPart2] = useState("");
-        const [part3, setPart3] = useState("");
+        const [part1, pSetPart1] = useState("");
+        const [part2, pSetPart2] = useState("");
+        const [part3, pSetPart3] = useState("");
         const [isFocused, setIsFocused] = useState(false);
 
         const input1Ref = useRef<HTMLInputElement>(null);
         const input2Ref = useRef<HTMLInputElement>(null);
         const input3Ref = useRef<HTMLInputElement>(null);
         const composing = useRef(false);
+
+        const setPart1 = (v:string) => {if (v.length <= 4) pSetPart1(v)}
+        const setPart2 = (v:string) => {if (v.length <= 4) pSetPart2(v)}
+        const setPart3 = (v:string) => {if (v.length <= 4) pSetPart3(v)}
+
+
 
         // 📌 첫 렌더링 시에만 value → 분해해서 hydrate
         useEffect(() => {

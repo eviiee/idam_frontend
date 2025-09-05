@@ -1,0 +1,42 @@
+.tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 400;
+    line-height: 1;
+
+    padding: 0.3rem 0.5rem;
+    border-radius: 99rem;
+
+    color: var(--text-color);
+    background-color: var(--background-color);
+
+    &.strong {
+        color: white;
+        background-color: var(--text-color);
+    }
+
+    &.black {
+        --text-color: #333;
+        --background-color: #eee;
+    }
+
+    &.red {
+        --text-color: #971d1d;
+        --background-color: #ffb5b5;
+    }
+
+    &.yellow {
+        --text-color: #ec9a00;
+        --background-color: #ffefbb;
+    }
+
+    &.blue {
+        --text-color: #1c45a3;
+        --background-color: #cfd7ea;
+    }
+
+    &.green {
+        --text-color: #0b4b1e;
+        --background-color: #b2dbbe;
+    }
+}

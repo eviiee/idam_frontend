@@ -3,20 +3,20 @@ import styles from './radioInput.module.scss'
 import clsx from 'clsx';
 import InputLabel from '../inputLabel/InputLabel';
 
-interface RadioOption<T extends string | number> {
+interface RadioOption<T extends string | number | null> {
   icon?: ReactNode;
   label: string;
   value: T;
 }
 
-interface RadioInputProps<T extends string | number> {
+interface RadioInputProps<T extends string | number | null> {
   label?: string;
   value: T;
   onChange: (v: T) => void;
   options: RadioOption<T>[]
 }
 
-export default function RadioInput<T extends string | number>({
+export default function RadioInput<T extends string | number | null>({
   label,
   value,
   onChange,
@@ -32,7 +32,7 @@ export default function RadioInput<T extends string | number>({
   )
 }
 
-function RadioButton<T extends string | number>({ option, onClick, selected }: { option: RadioOption<T>, onClick: (v: T) => void, selected: boolean }) {
+function RadioButton<T extends string | number | null>({ option, onClick, selected }: { option: RadioOption<T>, onClick: (v: T) => void, selected: boolean }) {
   return (
     <div
       onClick={() => onClick(option.value)}

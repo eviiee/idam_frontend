@@ -1,23 +1,23 @@
 import { Channel, Company, Courier } from "./partner"
 import { PrintInfo } from "./print"
 
-export type OrderState = '결제대기' | '결제완료' | '배송준비중' | '처리완료'
+export type OrderState = '결제대기' | '결제완료' | '배송준비중' | '처리완료' | '반품' | '취소'
 export type PurchaseType = '신용거래' | '무통장 입금' | '현금결제' | '카드결제'
-export type PurchaseState = "결제대기"|"결제완료"|"결제취소"
+export type PurchaseState = "결제대기" | "결제완료" | "결제취소"
 export type ShipmentType = '택배' | '퀵/화물' | '직배송' | '방문수령' | '배송없음'
 
 export interface OrderedItem {
     id?: number;
-    productOption:number;
-    quantity:number;
-    printInfo:PrintInfo
+    productOption: number;
+    quantity: number;
+    printInfo: PrintInfo
 
     optionName: string;
 }
 
 
 export interface Order {
-    id: number
+    id: number | null
     channel: Channel
     channelOrderId?: string
     orderState: OrderState
@@ -32,10 +32,10 @@ export interface Order {
 
     orderedItems: OrderedItem[]
     needPrinting: boolean
-    printState: "시안 작업중"|"인쇄 대기"|"인쇄 완료"|null
+    printState: "시안 작업중" | "인쇄 대기" | "인쇄 완료" | null
     needPackaging: boolean
-    packagingState: "포장 대기"|"포장 완료"|null
-    memo:string
+    packagingState: "포장 대기" | "포장 완료" | null
+    memo: string
 }
 
 export interface Shipment {
