@@ -1,15 +1,11 @@
 import { ReactNode } from 'react';
 import styles from './adminPageSectionWithActionButton.module.scss'
-
-interface Action {
-    label: string;
-    onClick: () => void;
-}
+import DropdownMenu, { DropdownAction } from '@/components/common/ui/button/actionButton/DropdownMenu';
 
 interface AdminPageSectionWithActionButtonProps {
     title?: string;
     subTitle?: string;
-    actions: Action[];
+    actions: DropdownAction[];
     children: ReactNode;
 }
 
@@ -20,12 +16,13 @@ export default function AdminPageSectionWithActionButton({
     children,
 }: AdminPageSectionWithActionButtonProps) {
     return (
-        <section>
-            <div>
+        <section className={styles['section-with-action-button']}>
+            <div className={styles['section-header']}>
                 {title && <h3>{title}</h3>}
                 {!title && subTitle && <h4>{subTitle}</h4>}
-                <div>⋮</div>
+                <DropdownMenu actions={actions} />
             </div>
+            <div className={styles['section-content']}>{children}</div>
         </section>
     )
 }

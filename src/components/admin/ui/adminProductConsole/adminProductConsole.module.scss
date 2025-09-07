@@ -1,0 +1,17 @@
+.searched-product-option {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+
+    padding: 10px 0;
+
+    > span {
+        line-height: 1;
+        font-size: 0.85rem;
+        flex-grow: 1;
+
+        white-space: nowrap;
+        word-break: keep-all;
+    }
+}

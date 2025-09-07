@@ -22,6 +22,7 @@ export interface ProductOption {
     stock?: number;
     inboundPrice?: number;
     price?: number;
+    displayName?: string;
 }
 
 export interface ProductTag {

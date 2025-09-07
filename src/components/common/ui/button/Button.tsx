@@ -1,6 +1,6 @@
 'use client'
 
-import { MouseEvent, ReactNode } from 'react'
+import { CSSProperties, MouseEvent, ReactNode } from 'react'
 import styles from './button.module.scss'
 import clsx from 'clsx'
 
@@ -11,6 +11,10 @@ type BaseProps = {
     disabled?: boolean
     children?: ReactNode
     small?: boolean
+    textColor?: string;
+    backgroundColor?: string;
+    hoverColor?: string;
+    style?: CSSProperties;
 }
 
 type LinkProps = BaseProps & {
@@ -37,13 +41,22 @@ export default function Button({
     simpleLink = false,
     href = "",
     small = false,
+    backgroundColor,
+    hoverColor,
+    textColor,
+    style = {},
 }: ButtonProps) {
+    const buttonStyle: { [key: string]: string } = {}
+    if (backgroundColor) buttonStyle["--background-color"] = backgroundColor
+    if (hoverColor) buttonStyle["--hover-color"] = hoverColor
+    if (textColor) buttonStyle["--color"] = textColor
 
-    const buttonClass = clsx(styles.button,styles[color], className, small && styles.small)
+    const buttonClass = clsx(styles.button, styles[color], className, small && styles.small)
     const component = simpleLink ?
-    <a href={href} className={buttonClass}>{children}</a>
-     :
+        <a href={href} className={buttonClass}>{children}</a>
+        :
         <button
+            style={{ ...style, ...buttonStyle } as CSSProperties}
             className={buttonClass}
             onClick={onClick}
             name={name}

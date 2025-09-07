@@ -1,0 +1,29 @@
+.section-with-action-button {
+    background-color: white;
+    border-radius: 1.3rem;
+    margin-bottom: 20px;
+
+    >.section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        padding: 20px;
+        padding-bottom: 10px;
+
+        >h3,>h4 {
+            line-height: 1;
+            color: #333;
+        }
+
+        > h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+    }
+
+    >.section-content {
+        padding: 20px;
+        padding-top: 10px;
+    }
+}

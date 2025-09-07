@@ -7,14 +7,13 @@ export type PurchaseState = "결제대기" | "결제완료" | "결제취소"
 export type ShipmentType = '택배' | '퀵/화물' | '직배송' | '방문수령' | '배송없음'
 
 export interface OrderedItem {
-    id?: number;
+    id?: number|string;
     productOption: number;
     quantity: number;
-    printInfo: PrintInfo
-
+    printInfo?: PrintInfo | null;
     optionName: string;
+    price: number;
 }
-
 
 export interface Order {
     id: number | null

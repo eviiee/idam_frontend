@@ -17,6 +17,9 @@ import { PhoneInput } from '@/components/common/ui/input/telInput/TelInput'
 import Tag from '@/components/common/ui/tag/Tag'
 import Button from '@/components/common/ui/button/Button'
 import { useModal } from '@/components/layout/modal/context'
+import AdminPageSectionWithActionButton from '@/components/admin/ui/adminPageSideSection/AdminPageSectionWithActionButton'
+import { Printer, ReceiptText } from 'lucide-react'
+import AdminProductConsole from '@/components/admin/ui/adminProductConsole/AdminProductConsole'
 
 export default function NewOrderAdminPage() {
 
@@ -31,18 +34,6 @@ export default function NewOrderAdminPage() {
         id: i,
         name: `회사${i}`,
     })))
-    const [buyerName, setBuyerName] = useState<string>("")
-
-    const [sellerName, setSellerName] = useState<string>("")
-    const [sellerContact, setSellerContact] = useState<string>("")
-    const [sellerContactAlt, setSellerContactAlt] = useState<string>("")
-    const [sellerAddress, setSellerAddress] = useState<string>("")
-
-    const [receiverName, setReceiverName] = useState<string>("")
-    const [receiverContact, setReceiverContact] = useState<string>("")
-    const [receiverContactAlt, setReceiverContactAlt] = useState<string>("")
-    const [receiverAddress, setReceiverAddress] = useState<string>("")
-    const [receiverMessage, setReceiverMessage] = useState<string>("")
 
     const [useDefaultBuyerInfo, setUseDefaultBuyerInfo] = useState<boolean>(true)
     const [useDefaultSellerInfo, setUseDefaultSellerInfo] = useState<boolean>(true)
@@ -75,7 +66,8 @@ export default function NewOrderAdminPage() {
                 receiverAddressDetail: "",
                 receiverMessage: "",
                 shipmentFee: 3000,
-            }
+            },
+            orderedItems: [],
         }
     })
 
@@ -137,14 +129,14 @@ export default function NewOrderAdminPage() {
                 </div>
                 <div className={styles['order-detail-page__header__buttons']}>
                     {
-                        isNew ?
+                        !isNew ?
                             <Button color='blue' onClick={() => { }}>발주확정</Button> :
                             <>
-                                <Button onClick={() => { }}>📜</Button>
-                                <Button onClick={() => { }}>🖨️</Button>
-                                <Button onClick={() => { }}>출고수량 변경</Button>
-                                <Button onClick={openCancelModal}>취소</Button>
-                                <Button onClick={openReturnModal}>반품</Button>
+                                <Button onClick={() => { }} hoverColor='#f8f9fb'><ReceiptText size={"1rem"} /></Button>
+                                <Button onClick={() => { }} hoverColor='#f8f9fb'><Printer size={"1rem"} /></Button>
+                                <Button onClick={() => { }} backgroundColor='#e0e4e8' hoverColor='#d1d7de'>출고수량 변경</Button>
+                                <Button onClick={openCancelModal} backgroundColor='#e0e4e8' hoverColor='#d1d7de'>취소</Button>
+                                <Button onClick={openReturnModal} backgroundColor='#e0e4e8' hoverColor='#d1d7de'>반품</Button>
                             </>
                     }
                 </div>
@@ -161,6 +153,16 @@ export default function NewOrderAdminPage() {
                         value={currentTab}
                         onChange={setCurrentTab}
                     />
+                    {isNew && <Controller
+                        name='orderedItems'
+                        control={control}
+                        render={({ field }) => (
+                            <AdminProductConsole
+                                products={field.value}
+                                onChange={field.onChange}
+                            />
+                        )}
+                    />}
                     <OrderDefaultInfoForm control={control} companies={companies} channels={channels} isDeposit={isDeposit} />
                     <AdminPageSection>
                         <Controller
@@ -272,7 +274,23 @@ export default function NewOrderAdminPage() {
                     </AdminPageSection>
                 </div>
                 <div className={styles['right']}>
-                    <AdminPageSection></AdminPageSection>
+                    <AdminPageSectionWithActionButton
+                        title='결제 정보'
+                        actions={[
+                            { label: "상세정보", onClick: () => { } },
+                            { label: "상세정보2", onClick: () => { } },
+                            { label: "상세정보3", onClick: () => { } },
+                            { label: "상세정보4", onClick: () => { } },
+                        ]}
+                    >
+                        정보
+                    </AdminPageSectionWithActionButton>
+                    <AdminPageSectionWithActionButton
+                        subTitle='구매자 정보'
+                        actions={[]}
+                    >
+                        ㄴㅇㄹㄴㅇㄹ
+                    </AdminPageSectionWithActionButton>
                 </div>
             </div>
         </div>
