@@ -1,3 +1,178 @@
+.search-result {
+
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+
+    display: flex;
+    flex-direction: column;
+    
+    padding: 10px 0;
+
+    >thead {
+
+        margin: 0 -20px;
+        padding: 0 20px;
+        overflow: auto;
+        scrollbar-gutter: stable;
+
+        >.search-result__column-names {
+            padding: 15px 0;
+            display: flex;
+            gap: 20px;
+
+            border-bottom: 1px solid var(--foreground-blur);
+
+            >th {
+                font-size: 0.95rem;
+                font-weight: 500;
+
+                &.option-name {
+                    flex-grow: 1;
+                    flex-shrink: 1;
+                    min-width: 350px;
+                }
+
+                &.price {
+                    flex-shrink: 0;
+                    width: 110px;
+                    text-align: center;
+                }
+
+                &.stock {
+                    flex-shrink: 0;
+                    width: 110px;
+                    text-align: center;
+                }
+
+                &.quantity {
+                    flex-shrink: 0;
+                    width: 110px;
+                    text-align: center;
+                }
+
+                &.revenue {
+                    flex-shrink: 0;
+                    width: 60px;
+                    text-align: center;
+                }
+            }
+        }
+    }
+
+    >tbody {
+
+        display: flex;
+        flex-direction: column;
+        height: 400px;
+
+        overflow: auto;
+        margin: 0 -20px;
+        padding: 0 20px;
+        scrollbar-gutter: stable;
+
+        >tr {
+
+            display: flex;
+            gap: 20px;
+
+            border-bottom: 1px solid #eee;
+
+            &:last-child {
+                border-bottom: 0;
+            }
+
+            >td {
+
+                line-height: 1;
+                font-size: 0.9rem;
+
+                white-space: nowrap;
+                word-break: keep-all;
+
+                &.searched-product-option__ {
+                    &check {
+                        flex-shrink: 0;
+                    }
+
+                    &name {
+                        flex-grow: 1;
+                        flex-shrink: 1;
+                        min-width: 350px;
+
+                        >span {
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                        }
+                    }
+
+                    &price {
+                        flex-shrink: 0;
+                        width: 110px;
+                        text-align: center;
+                    }
+
+                    &stock {
+                        flex-shrink: 0;
+                        width: 110px;
+                        text-align: center;
+                    }
+
+                    &quantity {
+                        flex-shrink: 0;
+                        width: 110px;
+                        text-align: center;
+
+                        >input {
+                            border: 0;
+                            outline: 0;
+                            border-radius: 0.4rem;
+                            background-color: #f5f5f5;
+                            overflow: hidden;
+                            padding: 6px 12px;
+                            line-height: 1;
+                            width: 80px;
+                        }
+                    }
+
+                    &total {
+                        flex-shrink: 0;
+                        text-align: right;
+                        width: 60px;
+                    }
+                }
+            }
+        }
+    }
+
+    td,
+    th {
+        // padding: 5px 0px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis ellipsis;
+    }
+
+    th {
+        font-weight: 600;
+    }
+
+}
+
+.search-result-buttons {
+
+    text-align: right;
+
+    >span {
+        font-weight: 500;
+    }
+
+    >button {
+        margin-left: 20px;
+    }
+}
+
 .searched-product-option {
     display: flex;
     flex-direction: row;
@@ -6,7 +181,7 @@
 
     padding: 10px 0;
 
-    > span {
+    >span {
         line-height: 1;
         font-size: 0.85rem;
         flex-grow: 1;

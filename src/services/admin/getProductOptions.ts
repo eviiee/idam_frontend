@@ -10,8 +10,8 @@ export default async function getProductOptionsAdmin(q: string): Promise<Product
         id: i,
         displayName: `상품${i} ${q}`,
         option1: Math.random() <= 0.5 ? `옵션1${i}` : undefined,
-        price: Math.random() * 19900,
-        stock: Math.random() * 1558,
+        price: Math.trunc(Math.random() * 19900),
+        stock: Math.trunc(Math.random() * 1558),
     }))
     await delay()
     return res

@@ -129,8 +129,8 @@ export default function NewOrderAdminPage() {
                 </div>
                 <div className={styles['order-detail-page__header__buttons']}>
                     {
-                        !isNew ?
-                            <Button color='blue' onClick={() => { }}>발주확정</Button> :
+                        isNew ?
+                            <Button color='blue' onClick={() => { }}>주문 확정</Button> :
                             <>
                                 <Button onClick={() => { }} hoverColor='#f8f9fb'><ReceiptText size={"1rem"} /></Button>
                                 <Button onClick={() => { }} hoverColor='#f8f9fb'><Printer size={"1rem"} /></Button>

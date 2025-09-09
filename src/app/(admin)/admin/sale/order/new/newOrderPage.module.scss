@@ -18,7 +18,8 @@
         align-items: flex-start;
         gap: 1.2rem;
 
-        background-color: #edf1f4;
+        background-color: rgba(237, 241, 244, 0.7);
+        backdrop-filter: blur(10);
 
         margin: -80px;
         margin-bottom: 30px;
