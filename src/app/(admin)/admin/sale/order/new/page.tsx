@@ -20,6 +20,7 @@ import { useModal } from '@/components/layout/modal/context'
 import AdminPageSectionWithActionButton from '@/components/admin/ui/adminPageSideSection/AdminPageSectionWithActionButton'
 import { Printer, ReceiptText } from 'lucide-react'
 import AdminProductConsole from '@/components/admin/ui/adminProductConsole/AdminProductConsole'
+import OrderDetailPageHeader from './components/OrderDetailPageHeader'
 
 export default function NewOrderAdminPage() {
 
@@ -112,35 +113,23 @@ export default function NewOrderAdminPage() {
 
     return (
         <div className={styles['order-detail-page']}>
-            <section className={styles['order-detail-page__header']}>
-                <button className={styles['order-detail-page__header__back-button']}>⬅</button>
-                <div className={styles['order-detail-page__header__title-section']}>
-                    <div className={styles['order-detail-page__header__title']}>
-                        <h1 className={styles['order-detail-page__header__title']}>{id}</h1>
-                        <div className={styles['order-detail-page__header__title__tags']}>
-                            <Tag>결제대기</Tag>
-                            <Tag type='blue'>결제완료</Tag>
-                            <Tag type="green">배송중</Tag>
-                            <Tag type='yellow'>반품됨</Tag>
-                            <Tag type='red'>취소됨</Tag>
-                        </div>
-                    </div>
-                    <div className={styles['order-detail-page__header__title__datetime']}>{orderedAt}</div>
-                </div>
-                <div className={styles['order-detail-page__header__buttons']}>
-                    {
-                        isNew ?
-                            <Button color='blue' onClick={() => { }}>주문 확정</Button> :
-                            <>
-                                <Button onClick={() => { }} hoverColor='#f8f9fb'><ReceiptText size={"1rem"} /></Button>
-                                <Button onClick={() => { }} hoverColor='#f8f9fb'><Printer size={"1rem"} /></Button>
-                                <Button onClick={() => { }} backgroundColor='#e0e4e8' hoverColor='#d1d7de'>출고수량 변경</Button>
-                                <Button onClick={openCancelModal} backgroundColor='#e0e4e8' hoverColor='#d1d7de'>취소</Button>
-                                <Button onClick={openReturnModal} backgroundColor='#e0e4e8' hoverColor='#d1d7de'>반품</Button>
-                            </>
-                    }
-                </div>
-            </section>
+            <OrderDetailPageHeader
+                id={id}
+                orderedAt={orderedAt}
+                onCancel={openCancelModal}
+                onReturn={openReturnModal}
+                isNew={isNew}
+            />
+            {isNew && <Controller
+                name='orderedItems'
+                control={control}
+                render={({ field }) => (
+                    <AdminProductConsole
+                        products={field.value}
+                        onChange={field.onChange}
+                    />
+                )}
+            />}
             <div className={styles['order-detail-page__content']}>
                 <div className={styles['left']}>
                     <RadioInput
@@ -153,16 +142,6 @@ export default function NewOrderAdminPage() {
                         value={currentTab}
                         onChange={setCurrentTab}
                     />
-                    {isNew && <Controller
-                        name='orderedItems'
-                        control={control}
-                        render={({ field }) => (
-                            <AdminProductConsole
-                                products={field.value}
-                                onChange={field.onChange}
-                            />
-                        )}
-                    />}
                     <OrderDefaultInfoForm control={control} companies={companies} channels={channels} isDeposit={isDeposit} />
                     <AdminPageSection>
                         <Controller
@@ -295,8 +274,4 @@ export default function NewOrderAdminPage() {
             </div>
         </div>
     )
-}
-
-function Separator() {
-    return <div className={styles.separator}></div>
 }

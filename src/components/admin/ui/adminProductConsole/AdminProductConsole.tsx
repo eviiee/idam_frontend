@@ -174,7 +174,7 @@ export default function AdminProductConsole({
                     </tr>
                 </thead>
                 <tbody>
-                    {loading ? <tr className={styles['loader']}><td><SpinnerLoader /></td></tr> : filtered === null ? <div className={styles.empty}>상품을 검색해주세요</div> : !filtered ? <div className={styles.empty}>검색 결과가 없습니다</div> : filtered.map(o => <ProductOptionListItem
+                    {loading ? <tr className={styles['loader']}><td><SpinnerLoader /></td></tr> : filtered === null ? <tr className={styles.empty}><td>상품을 검색해주세요</td></tr> : !filtered ? <div className={styles.empty}>검색 결과가 없습니다</div> : filtered.map(o => <ProductOptionListItem
                         key={o.option.id}
                         selected={selectedOptions.has(o.option.id!)}
                         onSelect={() => selectProductOption(o)}
@@ -211,7 +211,7 @@ export default function AdminProductConsole({
                     </tr>
                 </thead>
                 <tbody>
-                    {products.length === 0 ? <tr className={styles.empty}>선택된 상품이 없습니다</tr> : products.map(p => <OrderedOptionListItem
+                    {products.length === 0 ? <tr className={styles.empty}><td>선택된 상품이 없습니다</td></tr> : products.map(p => <OrderedOptionListItem
                         key={p.id}
                         item={p}
                         selected={selected.some(s => s.id === p.id)}
