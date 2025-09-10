@@ -1,7 +1,7 @@
 'use client'
 
 import styles from './adminProductConsole.module.scss'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { OrderedItem } from '@/types/order';
 import { ProductOption } from '@/types/product';
 import { toast } from 'react-toastify';
@@ -13,6 +13,9 @@ import ProductOptionListItem from './productOptionList/ProductOptionListItem';
 import Checkbox from '@/components/common/ui/button/checkbox/CheckBox';
 import Button from '@/components/common/ui/button/Button';
 import { toCommaSeparated } from '@/services/common/common';
+import Paginator from '@/components/common/ui/paginator/Paginator';
+import OrderedOptionListItem from './productOptionList/OrderedOptionListItem';
+import { Pen, PenBox, PenTool } from 'lucide-react';
 
 interface AdminProductConsoleProps {
     products: OrderedItem[];
@@ -31,20 +34,37 @@ export default function AdminProductConsole({
 
     const [loading, setLoading] = useState<boolean>(false)
     const [query, setQuery] = useState<string>("")
+    const [currentQuery, setCurrentQuery] = useState<string>("")
     const [filtered, setFiltered] = useState<SearchedProductOption[] | null>(null)
+    const [maxPage, setMaxPage] = useState<number>(1)
+    const [currentPage, setCurrentPage] = useState<number>(1)
     const [selectedOptions, setSelectedOptions] = useState<Set<number>>(new Set())
 
     const [selected, setSelected] = useState<OrderedItem[]>([])
     const [counter, setCounter] = useState<number>(0)
 
+    useEffect(() => {
+        loadOptions()
+    }, [currentPage])
+
     const searchOptions = async () => {
+        setCurrentQuery(query)
+        setCurrentPage(1)
+        loadOptions()
+    }
+    const loadOptions = async () => {
+        if (currentQuery.trim() === "") {
+            setFiltered(null)
+            return
+        }
         setLoading(true)
-        const promise = getProductOptionsAdmin(query);
+        const promise = getProductOptionsAdmin(currentQuery, currentPage);
         try {
             const options = await promise
             setFiltered(options.map(o => ({ option: o, quantity: 0 })))
         } catch {
             toast("오류 발생. 관리자에게 문의하세요", { type: "error" })
+            setFiltered([])
         }
         setLoading(false)
     }
@@ -74,7 +94,7 @@ export default function AdminProductConsole({
     const selectProduct = (p: OrderedItem) => {
         setSelected(prev => [...prev, p])
     }
-    const deselectProduct = (i: number) => {
+    const deselectProduct = (i: number | string) => {
         setSelected(prev => prev.filter(p => p.id !== i))
     }
 
@@ -86,11 +106,10 @@ export default function AdminProductConsole({
     const selectAll = () => setSelected([...products])
     const deselectAll = () => setSelected([])
 
-    const handleQuantityChange = (i: number | string, v: number) => {
-        const newList = products.map((p) => {
-            if (p.id !== i) return p
-            p.quantity = v
-            return p
+    const handleOrderedItemChange = (p: OrderedItem, price: number, quantity: number) => {
+        const newList = products.map((o) => {
+            if (p.id !== o.id) return o
+            return { ...p, price, quantity }
         })
         onChange(newList)
     }
@@ -106,6 +125,7 @@ export default function AdminProductConsole({
     const addProducts = () => {
         if (selectedOptions.size === 0) {
             toast("추가할 옵션이 없습니다", { type: "error" })
+            return
         }
         const newProducts: OrderedItem[] = []
         filtered?.forEach((o, i) => {
@@ -139,7 +159,7 @@ export default function AdminProductConsole({
         return toCommaSeparated(total)
     }
 
-    return (
+    return (<>
         <AdminPageSection>
             <SearchInput query={query} onQueryChange={setQuery} onSearch={searchOptions} />
             <table className={styles['search-result']}>
@@ -154,7 +174,7 @@ export default function AdminProductConsole({
                     </tr>
                 </thead>
                 <tbody>
-                    {loading ? <tr><td><SpinnerLoader /></td></tr> : filtered?.map(o => <ProductOptionListItem
+                    {loading ? <tr className={styles['loader']}><td><SpinnerLoader /></td></tr> : filtered === null ? <div className={styles.empty}>상품을 검색해주세요</div> : !filtered ? <div className={styles.empty}>검색 결과가 없습니다</div> : filtered.map(o => <ProductOptionListItem
                         key={o.option.id}
                         selected={selectedOptions.has(o.option.id!)}
                         onSelect={() => selectProductOption(o)}
@@ -165,9 +185,42 @@ export default function AdminProductConsole({
                 </tbody>
             </table>
             <div className={styles['search-result-buttons']}>
+                <Paginator maxPage={10} currentPage={currentPage} onPageChange={setCurrentPage} />
+                <div className={styles.spacer}></div>
                 <span>{selectedOptions.size}개 상품 ({totalSelectedOptionQuantity()})</span>
                 <Button onClick={addProducts}>추가</Button>
             </div>
         </AdminPageSection>
-    )
+        <AdminPageSection>
+            <div className={styles['selected-products-header']}>
+                <h3>주문 목록</h3>
+                <div className={styles['buttons']}>
+                    <Button className={styles['remove-products-button']} onClick={removeProducts} color='blue'>인쇄 추가</Button>
+                    <Button className={styles['remove-products-button']} onClick={removeProducts}>포장 추가</Button>
+                    <Button className={styles['remove-products-button']} onClick={removeProducts}>선택 삭제</Button>
+                </div>
+            </div>
+            <table className={styles['selected-products']}>
+                <thead>
+                    <tr className={styles['selected-products__column-names']}>
+                        <th className={styles['check']}><Checkbox onSelect={selectAll} onDeselect={deselectAll} selected={products.length > 0 && selected.length === products.length} /></th>
+                        <th className={styles['option-name']}><span>상품명</span></th>
+                        <th className={styles['price']}><span>판매가</span></th>
+                        <th className={styles['quantity']}><span>주문수량</span></th>
+                        <th className={styles['revenue']}><span>판매액</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {products.length === 0 ? <tr className={styles.empty}>선택된 상품이 없습니다</tr> : products.map(p => <OrderedOptionListItem
+                        key={p.id}
+                        item={p}
+                        selected={selected.some(s => s.id === p.id)}
+                        onSelect={() => selectProduct(p)}
+                        onDeselect={() => deselectProduct(p.id!)}
+                        onChange={handleOrderedItemChange}
+                    />)}
+                </tbody>
+            </table>
+        </AdminPageSection>
+    </>)
 }

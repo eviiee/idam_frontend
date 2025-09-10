@@ -1,0 +1,58 @@
+.paginator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    >.ellipsis {
+        user-select: none;
+        color: #ddd;
+    }
+
+    >.pageButton,
+    >.arrowButton {
+        background: none;
+        border: none;
+        width: 2rem;
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 0.9rem;
+        color: var(--foreground);
+        border-radius: 0.25rem;
+        line-height: 1;
+
+        &:disabled {
+            cursor: default;
+
+            &:hover {
+                background-color: transparent;
+            }
+        }
+    }
+
+    >.arrowButton {
+        border-radius: 99rem;
+        background-color: transparent;
+        color: var(--blue);
+        &:hover {
+            background-color: var(--background-shade);
+        }
+        &:disabled {
+            color: #aaa;
+        }
+    }
+
+    >.pageButton {
+
+        &:hover {
+            background-color: var(--background-shade);
+        }
+
+        &.active {
+            background-color: rgb(199, 233, 255);
+            cursor: default;
+        }
+    }
+}
