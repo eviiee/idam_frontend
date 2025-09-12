@@ -1,0 +1,27 @@
+.tabSelect {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 2rem;
+
+    .tab {
+        padding: 1rem 0;
+        line-height: 1;
+        cursor: pointer;
+        border: 1px solid transparent;
+        border-bottom: none;
+        font-weight: 400;
+        color: #aaa;
+        background-color: transparent;
+
+        &.active {
+            border-bottom: 3px solid #007aff;
+            color: #007aff;
+            font-weight: 600;
+        }
+
+        &:hover {
+            color: #007aff;
+        }
+    }
+}

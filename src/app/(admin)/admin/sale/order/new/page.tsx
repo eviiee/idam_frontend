@@ -21,6 +21,7 @@ import AdminPageSectionWithActionButton from '@/components/admin/ui/adminPageSid
 import { Printer, ReceiptText } from 'lucide-react'
 import AdminProductConsole from '@/components/admin/ui/adminProductConsole/AdminProductConsole'
 import OrderDetailPageHeader from './components/OrderDetailPageHeader'
+import { PrintInfo } from '@/types/print'
 
 export default function NewOrderAdminPage() {
 
@@ -39,6 +40,10 @@ export default function NewOrderAdminPage() {
     const [useDefaultBuyerInfo, setUseDefaultBuyerInfo] = useState<boolean>(true)
     const [useDefaultSellerInfo, setUseDefaultSellerInfo] = useState<boolean>(true)
     const [purchaseType, setPurchaseType] = useState<PurchaseType>("신용거래")
+
+    const [printItems, setPrintItems] = useState<{ [keys: string | number]: string | number }>({})
+    const [prints, setPrints] = useState<PrintInfo[]>([])
+    const [packagings, setPackagings] = useState<{ [keys: string | number]: number }>({})
 
     const { setValue, register, handleSubmit, control, watch, formState: { errors } } = useForm<Order>({
         defaultValues: {

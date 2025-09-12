@@ -15,11 +15,17 @@ import Button from '@/components/common/ui/button/Button';
 import { toCommaSeparated } from '@/services/common/common';
 import Paginator from '@/components/common/ui/paginator/Paginator';
 import OrderedOptionListItem from './productOptionList/OrderedOptionListItem';
-import { Pen, PenBox, PenTool } from 'lucide-react';
+import { useModal } from '@/components/layout/modal/context';
+import PrintModalContent from '@/app/(admin)/admin/sale/order/new/components/PrintModalContent';
+import { PrintInfo } from '@/types/print';
 
 interface AdminProductConsoleProps {
     products: OrderedItem[];
     onChange: (v: OrderedItem[]) => void;
+    prints?: PrintInfo[];
+    setPrints?: (v: PrintInfo[]) => void;
+    printItems?: { [keys: string | number]: string | number };
+    setPrintItems?: (v: { [keys: string | number]: string | number }) => void;
 }
 
 export interface SearchedProductOption {
@@ -30,6 +36,10 @@ export interface SearchedProductOption {
 export default function AdminProductConsole({
     products,
     onChange,
+    prints = [],
+    setPrints = () => { },
+    printItems = {},
+    setPrintItems = () => { },
 }: AdminProductConsoleProps) {
 
     const [loading, setLoading] = useState<boolean>(false)
@@ -42,6 +52,8 @@ export default function AdminProductConsole({
 
     const [selected, setSelected] = useState<OrderedItem[]>([])
     const [counter, setCounter] = useState<number>(0)
+
+    const { open, close, } = useModal();
 
     useEffect(() => {
         loadOptions()
@@ -159,6 +171,26 @@ export default function AdminProductConsole({
         return toCommaSeparated(total)
     }
 
+    const openPrintModal = () => {
+        if (!selected.length) {
+            toast.error("인쇄를 추가할 상품을 선택해주세요.");
+            return;
+        }
+        open({
+            title: "인쇄 선택",
+            content: <PrintModalContent
+                items={products.map(p => p.id!)}
+                prints={prints}
+                printItems={printItems}
+                onPrintChange={setPrints}
+                onPrintItemChange={setPrintItems}
+                onCloseModal={close}
+            />,
+            size: 'lg',
+            dismissible: true,
+        })
+    }
+
     return (<>
         <AdminPageSection>
             <SearchInput query={query} onQueryChange={setQuery} onSearch={searchOptions} />
@@ -195,7 +227,7 @@ export default function AdminProductConsole({
             <div className={styles['selected-products-header']}>
                 <h3>주문 목록</h3>
                 <div className={styles['buttons']}>
-                    <Button className={styles['remove-products-button']} onClick={removeProducts} color='blue'>인쇄 추가</Button>
+                    <Button className={styles['remove-products-button']} onClick={openPrintModal} color='blue'>인쇄 추가</Button>
                     <Button className={styles['remove-products-button']} onClick={removeProducts}>포장 추가</Button>
                     <Button className={styles['remove-products-button']} onClick={removeProducts}>선택 삭제</Button>
                 </div>

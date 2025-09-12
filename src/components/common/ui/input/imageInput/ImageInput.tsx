@@ -2,25 +2,27 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from './imageInput.module.scss'
 import clsx from "clsx";
+import { ImagePlus } from "lucide-react";
 
 type Props = {
-    /** 확정 시 선택된 파일을 넘겨받음 */
-    onConfirm?: (file: File) => void;
     /** 정사각형 한 변 길이(px, rem 등) – 기본 200px */
-    size?: string;
+    width?: string | number;
+    height?: string | number;
     /** 허용할 파일 타입 */
     accept?: string;
     file?: File | null
     setFile?: (f:File | null) => void
     maxSize?: number
+    square?: boolean
 };
 
 export default function ImageInput({
-    onConfirm,
-    size = "200px",
-    accept = "image/*",
+    width = "200px",
+    height = "200px",
+    accept = "image/png, image/jpeg, image/jpg, image/gif",
     file: controlledFile,
     setFile: setControlledFile,
+    square = true,
     maxSize,
 }: Props) {
     const inputRef = useRef<HTMLInputElement | null>(null);
@@ -86,10 +88,7 @@ export default function ImageInput({
         setIsDragging(false);
     };
 
-    // 확정/취소
-    const confirm = () => {
-        if (file && onConfirm) onConfirm(file);
-    };
+    // 취소
     const cancel = () => {
         setFile(null);
         if (inputRef.current) inputRef.current.value = "";
@@ -101,32 +100,21 @@ export default function ImageInput({
         role="button"
         tabIndex={0}
         aria-label="이미지 업로드"
-        className={clsx(styles.square, isDragging && styles.dragging, previewUrl && styles.hasPreview)}
+        className={clsx(styles.input, square && styles.square, isDragging && styles.dragging, previewUrl && styles.hasPreview)}
         onClick={openFilePicker}
         onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && openFilePicker()}
         onDrop={onDrop}
         onDragOver={onDragOver}
         onDragLeave={onDragLeave}
         style={{
-          width: size,
-          // 높이는 CSS에서 aspect-ratio로 1:1 유지
+          width: width,
+          height: height,
           backgroundImage: previewUrl ? `url(${previewUrl})` : undefined,
         }}
       >
         {!previewUrl && (
           <div className={styles.placeholder}>
-            <svg
-              width="32"
-              height="32"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-              focusable="false"
-            >
-              <path
-                d="M19 3H5a2 2 0 0 0-2 2v14l4-4h12a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2Zm-3 6h-2v2h-4V9H8V7h2V5h4v2h2v2Z"
-                fill="currentColor"
-              />
-            </svg>
+            <ImagePlus size="2rem" />
             <span>이미지 추가</span>
             <small>(클릭 또는 드래그)</small>
           </div>
@@ -141,14 +129,6 @@ export default function ImageInput({
       </div>
 
       <div className={styles.actions}>
-        <button
-          type="button"
-          onClick={confirm}
-          disabled={!file}
-          title={!file ? "이미지를 먼저 선택하세요" : "이 이미지로 확정"}
-        >
-          확정
-        </button>
         <button type="button" onClick={cancel} disabled={!file}>
           취소
         </button>
