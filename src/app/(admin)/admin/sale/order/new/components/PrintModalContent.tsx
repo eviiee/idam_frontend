@@ -8,6 +8,7 @@ import RadioInput from '@/components/common/ui/input/radio/RadioInput';
 import TextInput from '@/components/common/ui/input/textinput/TextInput';
 import ImageInput from '@/components/common/ui/input/imageInput/ImageInput';
 import TabSelect from '@/components/common/ui/tabs/TabSelect';
+import FileInput from '@/components/common/ui/input/fileInput/FileInput';
 
 interface PrintModalContentProps {
     items: (number | string)[];
@@ -103,11 +104,14 @@ export default function PrintModalContent({ items, prints, printItems, onPrintCh
                             width={'100%'}
                             height={300}
                         />
-                        <div className={styles.formGroup}>
-                            <label>인쇄 디자인 (원본)</label>
-                            <input type="file" accept="image/*,application/pdf" onChange={(e) => setPrintDesign(e.target.files ? e.target.files[0] : null)} />
-                            {printDesign && <span>{printDesign.name}</span>}
-                        </div>
+                        <FileInput
+                        label='AI 파일 업로드 / 드롭'
+                            file={printDesign}
+                            setFile={setPrintDesign}
+                            accept=".ai"
+                            maxSize={10}
+                            description='AI 파일만 업로드 가능 (최대 10MB)'
+                        />
                         <RadioInput
                             label="인쇄 상태"
                             options={[
@@ -148,7 +152,7 @@ export default function PrintModalContent({ items, prints, printItems, onPrintCh
             </div>
             <div className={styles.modalActions}>
                 <button onClick={onCloseModal}>취소</button>
-                <button onClick={handleConfirm} disabled={selectedPrintId === null}>확인</button>
+                <button className={styles.confirm} onClick={handleConfirm} disabled={selectedPrintId === null}>확인</button>
             </div>
         </div>
     )
