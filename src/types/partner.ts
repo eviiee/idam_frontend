@@ -34,8 +34,10 @@ export interface Company {
     id? : number
     name? : string
     address? : string
+    addressDetail? : string
     email? : string
     contact? : string
+    contactAlt? : string
     bizRegNum? : string
 }
 

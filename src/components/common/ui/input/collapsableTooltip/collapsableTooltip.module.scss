@@ -1,0 +1,33 @@
+.container {
+    background-color: rgb(249, 250, 251);
+    padding: 0.9rem 1.2rem;
+    white-space: pre-wrap;
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    >.title {
+        font-size: 0.85rem;
+        font-weight: 600;
+        line-height: 1;
+        padding: 0.3rem 0;
+        display: flex;
+        gap: 0.4rem;
+        align-items: center;
+        color: rgb(78, 89, 104);
+    }
+
+    .content {
+
+        padding-top: 0.7rem;
+
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+
+        font-size: 0.82rem;
+        font-weight: 500;
+        color: #6b7684;
+        line-height: 1.5;
+    }
+}

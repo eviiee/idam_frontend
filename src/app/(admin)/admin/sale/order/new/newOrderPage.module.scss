@@ -94,6 +94,23 @@
 
         >.left {
             flex-grow: 1;
+
+            >.order-state-radio {
+                >div {
+                    width: 100%;
+                    display: flex;
+                    background-color: white;
+                    padding: 0.2rem;
+                    border-radius: 1rem;
+
+                    >div {
+                        border-radius: 0.8rem;
+                        flex-grow: 1;
+                        padding-top: 20px;
+                        padding-bottom: 20px;
+                    }
+                }
+            }
         }
 
         >.right {
@@ -101,7 +118,7 @@
             position: sticky;
             top: 200px;
 
-            width: 450px;
+            width: 575px;
             flex-shrink: 0;
         }
     }
@@ -133,6 +150,7 @@
                 background-color: var(--blue);
                 color: white;
             }
+
             &.cancel {
                 background-color: #ddd;
             }
@@ -140,6 +158,7 @@
             &:hover {
                 filter: brightness(0.95);
             }
+
             &:disabled {
                 background-color: #bbb;
                 cursor: not-allowed;

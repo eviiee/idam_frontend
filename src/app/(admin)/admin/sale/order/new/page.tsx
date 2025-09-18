@@ -22,6 +22,7 @@ import { Printer, ReceiptText } from 'lucide-react'
 import AdminProductConsole from '@/components/admin/ui/adminProductConsole/AdminProductConsole'
 import OrderDetailPageHeader from './components/OrderDetailPageHeader'
 import { PrintInfo } from '@/types/print'
+import CollapsableTooltip from '@/components/common/ui/input/collapsableTooltip/CollapsableTooltip'
 
 export default function NewOrderAdminPage() {
 
@@ -61,10 +62,10 @@ export default function NewOrderAdminPage() {
             shipment: {
                 shipmentType: "택배",
                 shipper: null,
-                shipperContact: "",
-                shipperContactAlt: "",
-                shipperAddress: "",
-                shipperAddressDetail: "",
+                shipperContact: "1644-6140",
+                shipperContactAlt: "이담",
+                shipperAddress: "인천 서구 봉수대로162번길 7 ",
+                shipperAddressDetail: "5층",
                 receiverName: "",
                 receiverContact: "",
                 receiverContactAlt: "",
@@ -86,11 +87,33 @@ export default function NewOrderAdminPage() {
     const shipmentType = watch("shipment.shipmentType")
     const isPaidShipment = shipmentType === "택배" || shipmentType === "퀵/화물"
 
-    // 기본정보 사용 선택시 정보 초기화
     useEffect(() => {
-        // if (!useDefaultBuyerInfo || !buyer) 
-    }, [useDefaultBuyerInfo])
-    useEffect(() => { }, [useDefaultSellerInfo])
+        if (useDefaultSellerInfo) {
+            if (seller === "이담") {
+                setValue("shipment.shipperName", "(주)이담리테일")
+                setValue("shipment.shipperContact", "1644-6140")
+                setValue("shipment.shipperContactAlt", "010-2428-5408")
+                setValue("shipment.shipperAddress", "인천 서구 봉수대로162번길 7")
+                setValue("shipment.shipperAddressDetail", "5층")
+            } else if (seller === "상플") {
+                setValue("shipment.shipperName", "상상플러스")
+                setValue("shipment.shipperContact", "1644-6140")
+                setValue("shipment.shipperContactAlt", "010-2118-7215")
+                setValue("shipment.shipperAddress", "인천 서구 봉수대로162번길 7")
+                setValue("shipment.shipperAddressDetail", "6층")
+            }
+        }
+    }, [seller])
+
+    useEffect(() => {
+        if (useDefaultBuyerInfo && buyer) {
+            setValue("shipment.receiverName", buyer.name || "")
+            setValue("shipment.receiverContact", buyer.contact || "")
+            setValue("shipment.receiverContactAlt", buyer.contactAlt || "")
+            setValue("shipment.receiverAddress", buyer.address || "")
+            setValue("shipment.receiverAddressDetail", buyer.addressDetail || "")
+        }
+    }, [buyer, useDefaultBuyerInfo])
 
     // 결제 수단 변경시 결제상태 초기화
     useEffect(() => {
@@ -137,18 +160,29 @@ export default function NewOrderAdminPage() {
             />}
             <div className={styles['order-detail-page__content']}>
                 <div className={styles['left']}>
-                    <RadioInput
-                        options={[
-                            { label: "전체", value: null },
-                            { label: "배송", value: "처리완료" },
-                            { label: "취소", value: "취소" },
-                            { label: "반품", value: "반품" },
-                        ]}
-                        value={currentTab}
-                        onChange={setCurrentTab}
-                    />
+                    {!isNew &&
+                        <RadioInput
+                            className={styles['order-state-radio']}
+                            options={[
+                                { label: "전체", value: null },
+                                { label: "배송", value: "처리완료" },
+                                { label: "취소", value: "취소" },
+                                { label: "반품", value: "반품" },
+                            ]}
+                            value={currentTab}
+                            onChange={setCurrentTab}
+                        />}
                     <OrderDefaultInfoForm control={control} companies={companies} channels={channels} isDeposit={isDeposit} />
                     <AdminPageSection>
+                        <CollapsableTooltip logo="📢" title="신규 주문 작성 방법" content={[
+                            "1. 상단의 '신규 주문'을 클릭하여 새 주문서를 작성합니다.",
+                            "2. '판매자'와 '구매자'를 선택합니다. 필요시 '구매자'는 새로 추가할 수 있습니다.",
+                            "3. '결제 수단'과 '결제 상태'를 선택합니다. 무통장 입금의 경우, 결제 상태는 '결제대기'로 자동 설정됩니다.",
+                            "4. '주문 상품' 섹션에서 상품을 추가하고 수량 및 가격을 입력합니다.",
+                            "5. '배송 정보' 섹션에서 발송인과 수취인의 정보를 입력합니다. '기본 정보 사용'을 체크하면, 선택한 판매자와 구매자의 기본 정보가 자동으로 입력됩니다.",
+                            "6. 모든 정보를 확인한 후, 페이지 하단의 '저장' 버튼을 클릭하여 주문서를 저장합니다.",
+                            "7. 저장 후, 필요시 '인쇄' 버튼을 클릭하여 주문서 및 송장을 인쇄할 수 있습니다."
+                        ]} />
                         <Controller
                             name='shipment.shipperName'
                             control={control}
@@ -259,6 +293,38 @@ export default function NewOrderAdminPage() {
                 </div>
                 <div className={styles['right']}>
                     <AdminPageSectionWithActionButton
+                        title='판매 정보'
+                        actions={[]}
+                    >
+                        <Controller
+                            name='seller'
+                            control={control}
+                            render={({ field }) => (
+                                <RadioInput
+                                    label='판매자*'
+                                    options={[{ label: "이담", value: "이담" }, { label: "상플", value: "상플" }]}
+                                    value={field.value!}
+                                    onChange={field.onChange}
+                                />
+                            )}
+                        />
+                        <Controller
+                            name='channel'
+                            control={control}
+                            render={({ field }) => (
+                                <SelectInput
+                                    label='판매채널*'
+                                    options={channels.map(c => ({ label: c.name, value: c.id }))}
+                                    value={field.value?.id ?? null}
+                                    onChange={(id) => {
+                                        const selected = channels.find(c => c.id === id) || null
+                                        field.onChange(selected)
+                                    }}
+                                />
+                            )}
+                        />
+                    </AdminPageSectionWithActionButton>
+                    <AdminPageSectionWithActionButton
                         title='결제 정보'
                         actions={[
                             { label: "상세정보", onClick: () => { } },
@@ -267,13 +333,67 @@ export default function NewOrderAdminPage() {
                             { label: "상세정보4", onClick: () => { } },
                         ]}
                     >
-                        정보
+                        <Controller
+                            name='purchaseType'
+                            control={control}
+                            render={({ field }) => (
+                                <RadioInput
+                                    label='결제 수단*'
+                                    options={[
+                                        { label: "신용거래", value: "신용거래" },
+                                        { label: "무통장 입금", value: "무통장 입금" },
+                                        { label: "카드결제", value: "카드결제" },
+                                        { label: "현금결제", value: "현금결제" },
+                                    ]} value={field.value} onChange={field.onChange} />
+                            )}
+                        />
+                        <Controller
+                            name='purchaseState'
+                            control={control}
+                            render={({ field }) => (
+                                <RadioInput
+                                    label='결제 상태*'
+                                    options={[
+                                        { label: "결제대기", value: "결제대기" },
+                                        { label: "결제완료", value: "결제완료" },
+                                    ]} value={field.value} onChange={field.onChange} />
+                            )}
+                        />
                     </AdminPageSectionWithActionButton>
                     <AdminPageSectionWithActionButton
-                        subTitle='구매자 정보'
+                        title='구매 정보'
                         actions={[]}
                     >
-                        ㄴㅇㄹㄴㅇㄹ
+                        <Controller
+                            name='channel'
+                            control={control}
+                            render={({ field }) => (
+                                <SelectInput
+                                    label='판매채널*'
+                                    options={channels.map(c => ({ label: c.name, value: c.id }))}
+                                    value={field.value?.id ?? null}
+                                    onChange={(id) => {
+                                        const selected = channels.find(c => c.id === id) || null
+                                        field.onChange(selected)
+                                    }}
+                                />
+                            )}
+                        />
+                        <Controller
+                            name='buyer'
+                            control={control}
+                            render={({ field }) => (
+                                <SelectInput
+                                    label='구매자'
+                                    options={companies.map(c => ({ label: c.name!, value: c.id! }))}
+                                    value={field.value?.id ?? null}
+                                    onChange={(id) => {
+                                        const selected = companies.find(c => c.id === id) || null
+                                        field.onChange(selected)
+                                    }}
+                                />
+                            )}
+                        />
                     </AdminPageSectionWithActionButton>
                 </div>
             </div>

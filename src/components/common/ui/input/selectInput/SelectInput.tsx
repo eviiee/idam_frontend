@@ -18,7 +18,7 @@ type SelectInputProps<T extends string | number> = {
     options: SelectInputOption<T>[];
     placeholder?: string;
     height?: number;
-    itemSize?: number;
+    itemSize?: number | string;
 }
 
 type SingleSelectInputProps<T extends string | number> = SelectInputProps<T> & {
@@ -49,7 +49,7 @@ export default function SelectInput<T extends string | number>(
         options,
         placeholder = "선택",
         height = 300,
-        itemSize = 60,
+        itemSize = 45,
     } = props
 
     const [isOpen, setIsOpen] = useState<boolean>(false)

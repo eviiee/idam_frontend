@@ -13,7 +13,8 @@ interface RadioInputProps<T extends string | number | null> {
   label?: string;
   value: T;
   onChange: (v: T) => void;
-  options: RadioOption<T>[]
+  options: RadioOption<T>[];
+  className?: string;
 }
 
 export default function RadioInput<T extends string | number | null>({
@@ -21,11 +22,12 @@ export default function RadioInput<T extends string | number | null>({
   value,
   onChange,
   options,
+  className,
 }: RadioInputProps<T>) {
   const radioButtons = options.map(v => <RadioButton option={v} onClick={onChange} selected={value === v.value} key={v.value} />)
 
   return (
-    <div className={styles['radio-wrap']}>
+    <div className={clsx(styles['radio-wrap'], className)}>
       {label && <InputLabel label={label} />}
       <div className={styles['radio-options-wrap']}>{radioButtons}</div>
     </div>
