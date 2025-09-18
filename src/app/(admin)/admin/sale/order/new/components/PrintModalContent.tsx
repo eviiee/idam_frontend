@@ -9,6 +9,7 @@ import TextInput from '@/components/common/ui/input/textinput/TextInput';
 import ImageInput from '@/components/common/ui/input/imageInput/ImageInput';
 import TabSelect from '@/components/common/ui/tabs/TabSelect';
 import FileInput from '@/components/common/ui/input/fileInput/FileInput';
+import CollapsableTooltip from '@/components/common/ui/input/collapsableTooltip/CollapsableTooltip';
 
 interface PrintModalContentProps {
     items: (number | string)[];
@@ -81,6 +82,15 @@ export default function PrintModalContent({ items, prints, printItems, onPrintCh
             <div className={styles.form}>
                 {currentTab === 'new' && (
                     <>
+                        <CollapsableTooltip
+                            icon="🏷"
+                            title="인쇄 신규 등록"
+                            content={[
+                                "- 신규 인쇄를 등록합니다.",
+                                "- 검색어 등록시 추후 인쇄 검색에 용이합니다.",
+                            ]}
+                            initialOpen={false}
+                        />
                         <TextInput
                             label="인쇄 이름"
                             value={printName}
@@ -105,7 +115,7 @@ export default function PrintModalContent({ items, prints, printItems, onPrintCh
                             height={300}
                         />
                         <FileInput
-                        label='AI 파일 업로드 / 드롭'
+                            label='AI 파일 업로드 / 드롭'
                             file={printDesign}
                             setFile={setPrintDesign}
                             accept=".ai"
@@ -125,12 +135,28 @@ export default function PrintModalContent({ items, prints, printItems, onPrintCh
                     </>
                 )}
                 {currentTab === 'local' && (
-                    <div className={styles.localPrintList}>
-                        <p>내 컴퓨터에서 인쇄를 선택하는 기능은 현재 지원되지 않습니다.</p>
-                    </div>
+                    <>
+                        <CollapsableTooltip
+                            icon="🏷"
+                            title="현재 주문 인쇄 목록"
+                            content={[
+                                "- 작성중인 주문서의 다른 품목에 적용된 인쇄 정보 목록입니다.",
+                            ]}
+                            initialOpen={false}
+                        />
+                    </>
                 )}
                 {currentTab === 'server' && (
                     <>
+                        <CollapsableTooltip
+                            icon="🏷"
+                            title="서버에서 검색"
+                            content={[
+                                "- 과거 인쇄 정보를 검색할 수 있습니다.",
+                                "- 인쇄 이름 및 검색어로 검색해주세요.",
+                            ]}
+                            initialOpen={false}
+                        />
                         <input type="text" placeholder="인쇄 이름으로 검색" value={query} onChange={(e) => setQuery(e.target.value)} className={styles.searchInput} />
                         <div className={styles.printItems}>
                             {printsFromServer.filter(p => p.printName.includes(query)).map(print => (

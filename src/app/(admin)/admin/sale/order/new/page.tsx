@@ -174,7 +174,7 @@ export default function NewOrderAdminPage() {
                         />}
                     <OrderDefaultInfoForm control={control} companies={companies} channels={channels} isDeposit={isDeposit} />
                     <AdminPageSection>
-                        <CollapsableTooltip logo="📢" title="신규 주문 작성 방법" content={[
+                        <CollapsableTooltip icon="📢" title="신규 주문 작성 방법" content={[
                             "1. 상단의 '신규 주문'을 클릭하여 새 주문서를 작성합니다.",
                             "2. '판매자'와 '구매자'를 선택합니다. 필요시 '구매자'는 새로 추가할 수 있습니다.",
                             "3. '결제 수단'과 '결제 상태'를 선택합니다. 무통장 입금의 경우, 결제 상태는 '결제대기'로 자동 설정됩니다.",

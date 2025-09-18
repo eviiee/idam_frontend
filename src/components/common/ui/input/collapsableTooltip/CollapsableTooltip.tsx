@@ -5,19 +5,19 @@ import styles from './collapsableTooltip.module.scss'
 import Collapsable from '../../wrapper/collapsable/Collapsable';
 
 interface CollapsableTooltipProps {
-    logo?: string;
+    icon?: string;
     title: string;
     content: string[];
     initialOpen?: boolean;
 }
 
-export default function CollapsableTooltip({ logo, title, content, initialOpen = true }: CollapsableTooltipProps) {
+export default function CollapsableTooltip({ icon, title, content, initialOpen = true }: CollapsableTooltipProps) {
     const [isOpen, setIsOpen] = useState(initialOpen);
 
     return (
         <div className={styles.container} onClick={() => setIsOpen(prev => !prev)}>
             <div className={styles.title}>
-                <span className={styles.logo}>{logo}</span>
+                <span className={styles.icon}>{icon}</span>
                 <span>{title}</span>
             </div>
             <Collapsable isOpen={isOpen}>
