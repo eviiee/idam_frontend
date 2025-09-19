@@ -153,7 +153,7 @@ export default function PrintModalContent({ items, prints, printItems, onPrintCh
                             title="서버에서 검색"
                             content={[
                                 "- 과거 인쇄 정보를 검색할 수 있습니다.",
-                                "- 인쇄 이름 및 검색어로 검색해주세요.",
+                                "- 인쇄 이름, 주문자/수취인명 및 검색어로 검색해주세요.",
                             ]}
                             initialOpen={false}
                         />
