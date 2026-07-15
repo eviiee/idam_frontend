@@ -1,4 +1,3 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import { getServerSession } from "next-auth"
 
 export async function AuthComponent({
@@ -13,7 +12,7 @@ export async function AuthComponent({
     roles?: ('admin' | 'user' | 'guest')[] // 허용할 권한
 }) {
 
-    const session = await getServerSession(authOptions)
+    const session = await getServerSession()
     const role = session?.user.role ?? 'guest'
 
     // 관리자 전용

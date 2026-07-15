@@ -1,4 +1,3 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import { getServerSession } from "next-auth"
 import { redirect } from "next/navigation"
 import { ReactNode } from "react"
@@ -7,7 +6,7 @@ import { ReactNode } from "react"
 
 export default async function AdminPage({ children }: { children: ReactNode }) {
 
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession()
   console.debug(session?.user)
 
   if (!session) {
